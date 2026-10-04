@@ -1,0 +1,275 @@
+{
+  "_needsNativeReview": [
+    "onboarding.intro.body",
+    "onboarding.privacy.body",
+    "permission.limitedBody",
+    "dashboard.groupCount",
+    "dashboard.cloudOnly",
+    "categories.similar.description",
+    "categories.blurry.description",
+    "groups.summary",
+    "swipe.cardHint",
+    "swipe.finishedBody",
+    "trash.description",
+    "trash.confirmBodyIos",
+    "trash.iosRecentlyDeleted",
+    "settings.similarityDescription",
+    "settings.similarityHighHint",
+    "privacy"
+  ],
+  "common": {
+    "back": "Артқа",
+    "cancel": "Бас тарту",
+    "close": "Жабу",
+    "next": "Әрі қарай",
+    "retry": "Қайталау",
+    "great": "Керемет",
+    "errorTitle": "Бірдеңе дұрыс болмады",
+    "errorBody": "Деректерді жүктеу мүмкін болмады. Қайтадан көріңіз."
+  },
+  "units": {
+    "b": "Б",
+    "kb": "КБ",
+    "mb": "МБ",
+    "gb": "ГБ"
+  },
+  "onboarding": {
+    "intro": {
+      "title": "Орынды бірнеше минутта босатыңыз",
+      "body": "Tazala ұқсас суреттерді, көшірмелерді, скриншоттарды, бұлыңғыр фотоларды және үлкен бейнелерді тауып, галереяны тез реттеуге көмектеседі."
+    },
+    "privacy": {
+      "title": "Фотолар телефоннан шықпайды",
+      "body": "Барлық талдау осы құрылғыда жүреді. Tazala-ның серверлері, аккаунттары және бақылауы жоқ, қолданба ешнәрсені ешқайда жүктемейді."
+    },
+    "access": {
+      "title": "Галереяға қолжетімділік",
+      "body": "Фото мен бейнелерді талдау үшін Tazala-ға оларға қолжетімділік керек. Сіздің растауыңызсыз ештеңе жойылмайды."
+    },
+    "allowAccess": "Рұқсат беру",
+    "continueWithout": "Рұқсатсыз жалғастыру",
+    "pageOf": "{{total}} беттің {{page}}-беті"
+  },
+  "permission": {
+    "deniedTitle": "Фотоларға рұқсат жоқ",
+    "deniedBody": "Tazala галереяңызды көрмейді. Тазалауды бастау үшін баптауларда фото мен бейнелерге рұқсат беріңіз.",
+    "openSettings": "Баптауларды ашу",
+    "limitedTitle": "Тек таңдалған фотоларға рұқсат",
+    "limitedBody": "Tazala тек сіз таңдаған фотоларды көреді, сондықтан талдау толық болмайды. Көбірек фото таңдаңыз немесе толық рұқсат беріңіз.",
+    "changeSelection": "Таңдауды өзгерту",
+    "allowFull": "Толық рұқсат беру"
+  },
+  "dashboard": {
+    "freedTitle": "Tazala арқылы босатылды",
+    "freedA11y": "Tazala арқылы босатылды: {{size}}",
+    "deletedCount_one": "{{formatted}} файл жойылды",
+    "deletedCount_other": "{{formatted}} файл жойылды",
+    "photos_one": "фото",
+    "photos_other": "фото",
+    "videos_one": "бейне",
+    "videos_other": "бейне",
+    "occupied": "алып тұр",
+    "swipe": "Свайппен реттеу",
+    "categoriesTitle": "Нені тазалауға болады",
+    "analyzing": "Талдап жатырмыз…",
+    "nothingFound": "Ештеңе табылмады",
+    "groupCount_one": "{{count}} топ · {{items}} артық",
+    "groupCount_other": "{{count}} топ · {{items}} артық",
+    "itemCount_one": "{{count}} файл",
+    "itemCount_other": "{{count}} файл",
+    "cloudOnly_one": "{{count}} фото тек iCloud-та сақталған және талданбады.",
+    "cloudOnly_other": "{{count}} фото тек iCloud-та сақталған және талданбады."
+  },
+  "scan": {
+    "title": "Галереяны талдап жатырмыз",
+    "paused": "Талдау кідіртілді",
+    "syncing_one": "Галереяны оқып жатырмыз: {{formatted}} файл",
+    "syncing_other": "Галереяны оқып жатырмыз: {{formatted}} файл",
+    "analyzing": "{{total}} фотоның {{processed}} талданды",
+    "grouping": "Ұқсас фотоларды іздеп жатырмыз…",
+    "pause": "Кідірту",
+    "resume": "Жалғастыру",
+    "errorTitle": "Талдау тоқтады",
+    "errorBody": "Галереяны талдау кезінде қате шықты. Табылған нәтижелер сақталды."
+  },
+  "categories": {
+    "similar": {
+      "title": "Ұқсас фотолар",
+      "description": "Бірнеше минут ішінде түсірілген суреттер сериясы. Әр топта ең жақсы фото қалады, қалғаны жоюға белгіленген. Таңдауды өзгерту үшін фотоны басыңыз.",
+      "empty": "Ұқсас фотолар сериясы табылмады."
+    },
+    "duplicates": {
+      "title": "Көшірмелер",
+      "description": "Бір фотоның бірдей көшірмелері. Әр топта бір көшірме қалады.",
+      "empty": "Көшірмелер табылмады."
+    },
+    "screenshots": {
+      "title": "Скриншоттар",
+      "description": "Скриншоттар, алдымен жаңалары. Қажет емесін белгілеңіз.",
+      "empty": "Скриншоттар табылмады."
+    },
+    "blurry": {
+      "title": "Бұлыңғыр",
+      "description": "Фокуста емес немесе жағылып кеткен сияқты фотолар. Алдымен ең бұлыңғырлары.",
+      "empty": "Бұлыңғыр фотолар табылмады."
+    },
+    "videos": {
+      "title": "Үлкен бейнелер",
+      "description": "Шектен үлкен бейнелер, алдымен ең үлкендері. Шекті баптауларда өзгертуге болады.",
+      "empty": "Үлкен бейнелер табылмады."
+    }
+  },
+  "category": {
+    "groupsSubtitle_one": "{{formatted}} топ",
+    "groupsSubtitle_other": "{{formatted}} топ",
+    "itemsSubtitle_one": "{{formatted}} файл",
+    "itemsSubtitle_other": "{{formatted}} файл",
+    "itemA11y": "{{date}}, {{size}}, {{state}}",
+    "moved_one": "{{count}} файл Tazala себетіне жылжытылды",
+    "moved_other": "{{count}} файл Tazala себетіне жылжытылды",
+    "emptyTitle": "Мұнда таза",
+    "scanningTitle": "Талдау әлі жүріп жатыр",
+    "scanningBody": "Талдау аяқталғанда нәтижелер осында шығады."
+  },
+  "groups": {
+    "best": "Ең жақсы",
+    "keep": "қалдыру",
+    "markedForTrash": "жоюға белгіленген",
+    "notSelected": "таңдалмаған",
+    "summary_one": "{{count}} фото · {{size}} босайды",
+    "summary_other": "{{count}} фото · {{size}} босайды",
+    "itemA11y": "{{total}} фотоның {{index}}-сі. {{best}} {{state}}"
+  },
+  "selection": {
+    "summary_one": "{{count}} таңдалды · {{size}}",
+    "summary_other": "{{count}} таңдалды · {{size}}",
+    "selectAll": "Барлығын таңдау",
+    "clear": "Таңдауды алу",
+    "moveToTrash_one": "Tazala себетіне: {{count}}",
+    "moveToTrash_other": "Tazala себетіне: {{count}}"
+  },
+  "swipe": {
+    "title": "Свайппен реттеу",
+    "chooseMonth": "Айды таңдаңыз",
+    "random": "Кездейсоқ фотолар",
+    "randomHint": "Бүкіл галереядан кездейсоқ жинақ",
+    "monthLabel_one": "{{month}} · {{formatted}} фото",
+    "monthLabel_other": "{{month}} · {{formatted}} фото",
+    "monthDone": "Реттелді",
+    "monthProgress": "{{total}} ішінен {{reviewed}} реттелді",
+    "emptyTitle": "Әзірге фото жоқ",
+    "emptyBody": "Галерея талданған соң фотолар осында шығады.",
+    "position": "{{current}} / {{total}}",
+    "keep": "Қалдыру",
+    "toTrash": "Жою",
+    "undo": "Болдырмау",
+    "keepHint": "Фотоны қалдырып, келесісін көрсетеді",
+    "trashHint": "Фотоны Tazala себетіне жылжытады",
+    "cardHint": "Солға сырғытсаңыз — жою, оңға — қалдыру, немесе төмендегі батырмаларды қолданыңыз",
+    "cardA11y": "{{date}} фотосы, {{size}}",
+    "gestureHint": "← жою   ·   қалдыру →",
+    "allDoneTitle": "Бұрын реттелген",
+    "allDoneBody": "Мұндағы барлық фотоны қарап шықтыңыз.",
+    "finishedTitle": "Дайын!",
+    "finishedBody_one": "{{count}} фото ({{size}}) Tazala себетінде. Сіздің растауыңызсыз ештеңе жойылмайды.",
+    "finishedBody_other": "{{count}} фото ({{size}}) Tazala себетінде. Сіздің растауыңызсыз ештеңе жойылмайды.",
+    "otherMonths": "Басқа айлар"
+  },
+  "trash": {
+    "title": "Tazala себеті",
+    "open": "Себетті ашу",
+    "openWithCount_one": "Tazala себеті, {{count}} файл",
+    "openWithCount_other": "Tazala себеті, {{count}} файл",
+    "description": "Мұнда әлі ештеңе жойылған жоқ. Қайтару үшін фотоны басыңыз немесе бәрін бірден жойыңыз.",
+    "emptyTitle": "Себет бос",
+    "emptyBody": "Санаттарда немесе свайп режимінде белгілеген фотоларыңыз осында шығады.",
+    "restore_one": "{{count}} файлды қайтару",
+    "restore_other": "{{count}} файлды қайтару",
+    "restored_one": "{{count}} файл қайтарылды",
+    "restored_other": "{{count}} файл қайтарылды",
+    "selectedForRestore": "қайтаруға таңдалған",
+    "deleteAll_one": "{{count}} файлды жою ({{size}})",
+    "deleteAll_other": "{{count}} файлды жою ({{size}})",
+    "confirmTitle_one": "{{count}} файлды жою керек пе?",
+    "confirmTitle_other": "{{count}} файлды жою керек пе?",
+    "confirmBodyIos": "{{size}} «Фото» қолданбасындағы «Жақында жойылғандар» альбомына ауысады. iOS жоюды растауды сұрайды.",
+    "confirmBodyAndroid": "{{size}} галереядан жойылады. Телефон жоюды растауды сұрауы мүмкін.",
+    "confirmAction": "Жою",
+    "cancelled": "Жою тоқтатылды. Ештеңе жойылған жоқ.",
+    "partial_one": "{{count}} файлды жою мүмкін болмады, ол себетте қалды.",
+    "partial_other": "{{count}} файлды жою мүмкін болмады, олар себетте қалды.",
+    "failed": "Файлдарды жою мүмкін болмады. Қайтадан көріңіз.",
+    "freedTitle": "Орын босатылды!",
+    "freedBody_one": "{{count}} файл жойылды.",
+    "freedBody_other": "{{count}} файл жойылды.",
+    "freedA11y_one": "{{size}} босатылды, {{count}} файл жойылды",
+    "freedA11y_other": "{{size}} босатылды, {{count}} файл жойылды",
+    "iosRecentlyDeleted": "iPhone-да жойылған фотолар «Фото» қолданбасындағы «Жақында жойылғандар» альбомына түседі. Орын сол альбомды тазалағанда немесе 30 күннен кейін автоматты түрде босайды."
+  },
+  "settings": {
+    "title": "Баптаулар",
+    "language": "Тіл",
+    "languageSystem": "Жүйе тілі",
+    "theme": "Тақырып",
+    "themeSystem": "Жүйедегідей",
+    "themeLight": "Ашық",
+    "themeDark": "Қараңғы",
+    "similarity": "Ұқсас фотоларды іздеу сезімталдығы",
+    "similarityDescription": "Бір топқа түсу үшін фотолар қаншалықты ұқсас болуы керек.",
+    "similarityLow": "Төмен",
+    "similarityLowHint": "Тек бірдей дерлік суреттер",
+    "similarityMedium": "Орташа",
+    "similarityMediumHint": "Ұсынылады",
+    "similarityHigh": "Жоғары",
+    "similarityHighHint": "Көбірек табады, бірақ әртүрлі суреттерді біріктіруі мүмкін",
+    "largeVideo": "«Үлкен бейне» шегі",
+    "largeVideoOption": "{{mb}} МБ-тан бастап",
+    "library": "Галерея",
+    "rescan": "Галереяны қайта сканерлеу",
+    "rescanTitle": "Галереяны қайта сканерлеу керек пе?",
+    "rescanBody": "Барлық фото қайтадан талданады. Бұл бірнеше минутқа созылуы мүмкін.",
+    "rescanAction": "Қайта сканерлеу",
+    "resetSwipes": "Свайп прогресін тастау",
+    "resetSwipesTitle": "Свайп прогресін тастау керек пе?",
+    "resetSwipesBody": "Барлық ай қайтадан реттеуге қолжетімді болады. Себет өзгермейді.",
+    "resetSwipesAction": "Тастау",
+    "about": "Қолданба туралы",
+    "version": "Tazala {{version}}",
+    "free": "Tazala тегін, жарнамасыз және интернетсіз жұмыс істейді."
+  },
+  "privacy": {
+    "title": "Құпиялылық саясаты",
+    "updated": "Жаңартылған: 2026 жылғы қазан",
+    "summary": {
+      "title": "Қысқаша",
+      "body": "Tazala ешқандай деректі жинамайды, жібермейді және сатпайды. Фото мен бейнелер тек сіздің құрылғыңызда талданады және одан ешқашан шықпайды."
+    },
+    "access": {
+      "title": "Фотоларға рұқсат",
+      "body": "Tazala ұқсас фотоларды, көшірмелерді, скриншоттарды, бұлыңғыр суреттерді және үлкен бейнелерді табу үшін галереяға рұқсат сұрайды. Рұқсатты кез келген уақытта телефон баптауларында шектей немесе қайтарып ала аласыз."
+    },
+    "processing": {
+      "title": "Талдау қалай жұмыс істейді",
+      "body": "Қолданба фотолардың кішірейтілген нұсқаларын оқып, техникалық белгілерін есептейді (мысалы, анықтық бағасы мен сурет хеші). Түпнұсқа файлдар көшірілмейді және өзгертілмейді."
+    },
+    "storage": {
+      "title": "Не сақталады",
+      "body": "Талдау нәтижелері, сіздің шешімдеріңіз және Tazala себеті қолданба ішіндегі жергілікті дерекқорда сақталады. Олар қолданбамен бірге жойылады."
+    },
+    "network": {
+      "title": "Интернет, аналитика және жарнама",
+      "body": "Tazala желілік сұраныстар жасамайды. Аналитика, бақылау, жарнама, ақаулар туралы есеп жинау және аккаунттар жоқ."
+    },
+    "deletion": {
+      "title": "Фотоларды жою",
+      "body": "Фотолар тек қолданбада және жүйелік терезеде растағаннан кейін жойылады. iPhone-да жойылған фотолар 30 күн бойы «Жақында жойылғандар» альбомында сақталады."
+    },
+    "contact": {
+      "title": "Байланыс",
+      "body": "Құпиялылық туралы сұрақтарыңыз болса, App Store немесе Google Play-дегі қолданба беті арқылы әзірлеушіге хабарласыңыз."
+    }
+  },
+  "benchmark": {
+    "title": "Бенчмарк"
+  }
+}

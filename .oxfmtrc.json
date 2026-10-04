@@ -1,0 +1,7 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "printWidth": 100,
+  "trailingComma": "all",
+  "ignorePatterns": ["CLAUDE.md", "ios/**", "android/**", "**/build/**", "**/.build/**", ".expo/**"]
+}

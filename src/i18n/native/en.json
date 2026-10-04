@@ -1,0 +1,9 @@
+{
+  "ios": {
+    "CFBundleDisplayName": "Tazala",
+    "NSPhotoLibraryUsageDescription": "Tazala analyzes your photos and videos on this device to find duplicates, similar shots and large files. Nothing is uploaded."
+  },
+  "android": {
+    "app_name": "Tazala"
+  }
+}

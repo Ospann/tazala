@@ -1,0 +1,9 @@
+{
+  "ios": {
+    "CFBundleDisplayName": "Tazala",
+    "NSPhotoLibraryUsageDescription": "Tazala көшірмелерді, ұқсас суреттерді және үлкен файлдарды табу үшін фото мен бейнелерді осы құрылғыда талдайды. Ештеңе жүктелмейді."
+  },
+  "android": {
+    "app_name": "Tazala"
+  }
+}

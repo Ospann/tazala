@@ -1,0 +1,10 @@
+export const SIMILARITY_WINDOW_MS = 10 * 60 * 1000;
+export const LIST_PAGE_SIZE = 1000;
+export const SCAN_BATCH_SIZE = 100;
+export const SCAN_CONCURRENCY = 3;
+export const DELETE_CHUNK_SIZE = 500;
+export const BLUR_THRESHOLD = 60;
+export const LARGE_VIDEO_OPTIONS_MB = [50, 100, 200] as const;
+export const DEFAULT_LARGE_VIDEO_MB = 100;
+export const SWIPE_PREFETCH_COUNT = 5;
+export const LIBRARY_CHANGE_DEBOUNCE_MS = 3000;

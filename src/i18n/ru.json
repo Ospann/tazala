@@ -1,0 +1,303 @@
+{
+  "common": {
+    "back": "Назад",
+    "cancel": "Отмена",
+    "close": "Закрыть",
+    "next": "Далее",
+    "retry": "Повторить",
+    "great": "Отлично",
+    "errorTitle": "Что-то пошло не так",
+    "errorBody": "Не удалось загрузить данные. Попробуйте ещё раз."
+  },
+  "units": {
+    "b": "Б",
+    "kb": "КБ",
+    "mb": "МБ",
+    "gb": "ГБ"
+  },
+  "onboarding": {
+    "intro": {
+      "title": "Освободите место за пару минут",
+      "body": "Tazala находит похожие снимки, дубликаты, скриншоты, размытые фото и большие видео, чтобы вы быстро разобрали галерею."
+    },
+    "privacy": {
+      "title": "Фото не покидают телефон",
+      "body": "Весь анализ происходит на этом устройстве. У Tazala нет серверов, аккаунтов и трекинга, и приложение ничего никуда не загружает."
+    },
+    "access": {
+      "title": "Доступ к галерее",
+      "body": "Tazala нужен доступ к фото и видео, чтобы их проанализировать. Ничего не удаляется без вашего подтверждения."
+    },
+    "allowAccess": "Разрешить доступ",
+    "continueWithout": "Продолжить без доступа",
+    "pageOf": "Страница {{page}} из {{total}}"
+  },
+  "permission": {
+    "deniedTitle": "Нет доступа к фото",
+    "deniedBody": "Tazala не видит вашу галерею. Разрешите доступ к фото и видео в настройках, чтобы начать уборку.",
+    "openSettings": "Открыть настройки",
+    "limitedTitle": "Доступ только к выбранным фото",
+    "limitedBody": "Tazala видит только выбранные вами фото, поэтому анализ будет неполным. Выберите больше фото или разрешите полный доступ.",
+    "changeSelection": "Изменить выбор",
+    "allowFull": "Разрешить полный доступ"
+  },
+  "dashboard": {
+    "freedTitle": "Освобождено с Tazala",
+    "freedA11y": "Освобождено с Tazala: {{size}}",
+    "deletedCount_one": "Удалён {{formatted}} файл",
+    "deletedCount_few": "Удалено {{formatted}} файла",
+    "deletedCount_many": "Удалено {{formatted}} файлов",
+    "deletedCount_other": "Удалено {{formatted}} файла",
+    "photos_one": "фото",
+    "photos_few": "фото",
+    "photos_many": "фото",
+    "photos_other": "фото",
+    "videos_one": "видео",
+    "videos_few": "видео",
+    "videos_many": "видео",
+    "videos_other": "видео",
+    "occupied": "занято",
+    "swipe": "Разобрать свайпами",
+    "categoriesTitle": "Что можно почистить",
+    "analyzing": "Анализируем…",
+    "nothingFound": "Ничего не найдено",
+    "groupCount_one": "{{count}} группа · {{items}} лишних",
+    "groupCount_few": "{{count}} группы · {{items}} лишних",
+    "groupCount_many": "{{count}} групп · {{items}} лишних",
+    "groupCount_other": "{{count}} группы · {{items}} лишних",
+    "itemCount_one": "{{count}} файл",
+    "itemCount_few": "{{count}} файла",
+    "itemCount_many": "{{count}} файлов",
+    "itemCount_other": "{{count}} файла",
+    "cloudOnly_one": "{{count}} фото хранится только в iCloud и не проанализировано.",
+    "cloudOnly_few": "{{count}} фото хранятся только в iCloud и не проанализированы.",
+    "cloudOnly_many": "{{count}} фото хранятся только в iCloud и не проанализированы.",
+    "cloudOnly_other": "{{count}} фото хранятся только в iCloud и не проанализированы."
+  },
+  "scan": {
+    "title": "Анализируем галерею",
+    "paused": "Анализ на паузе",
+    "syncing_one": "Читаем галерею: {{formatted}} файл",
+    "syncing_few": "Читаем галерею: {{formatted}} файла",
+    "syncing_many": "Читаем галерею: {{formatted}} файлов",
+    "syncing_other": "Читаем галерею: {{formatted}} файла",
+    "analyzing": "Проанализировано {{processed}} из {{total}} фото",
+    "grouping": "Ищем похожие фото…",
+    "pause": "Пауза",
+    "resume": "Продолжить",
+    "errorTitle": "Анализ остановлен",
+    "errorBody": "Во время анализа что-то пошло не так. Уже найденные результаты сохранены."
+  },
+  "categories": {
+    "similar": {
+      "title": "Похожие фото",
+      "description": "Серии снимков, сделанных в пределах нескольких минут. В каждой группе остаётся лучшее фото, остальные отмечены к удалению. Нажмите на фото, чтобы изменить выбор.",
+      "empty": "Серий похожих фото не найдено."
+    },
+    "duplicates": {
+      "title": "Дубликаты",
+      "description": "Одинаковые копии одного и того же фото. В каждой группе остаётся одна копия.",
+      "empty": "Дубликатов не найдено."
+    },
+    "screenshots": {
+      "title": "Скриншоты",
+      "description": "Скриншоты, сначала новые. Отметьте те, что больше не нужны.",
+      "empty": "Скриншотов не найдено."
+    },
+    "blurry": {
+      "title": "Размытые",
+      "description": "Фото, которые выглядят не в фокусе или смазанными. Сначала самые размытые.",
+      "empty": "Размытых фото не найдено."
+    },
+    "videos": {
+      "title": "Большие видео",
+      "description": "Видео больше заданного порога, сначала самые большие. Порог можно изменить в настройках.",
+      "empty": "Больших видео не найдено."
+    }
+  },
+  "category": {
+    "groupsSubtitle_one": "{{formatted}} группа",
+    "groupsSubtitle_few": "{{formatted}} группы",
+    "groupsSubtitle_many": "{{formatted}} групп",
+    "groupsSubtitle_other": "{{formatted}} группы",
+    "itemsSubtitle_one": "{{formatted}} файл",
+    "itemsSubtitle_few": "{{formatted}} файла",
+    "itemsSubtitle_many": "{{formatted}} файлов",
+    "itemsSubtitle_other": "{{formatted}} файла",
+    "itemA11y": "{{date}}, {{size}}, {{state}}",
+    "moved_one": "{{count}} файл перемещён в корзину Tazala",
+    "moved_few": "{{count}} файла перемещено в корзину Tazala",
+    "moved_many": "{{count}} файлов перемещено в корзину Tazala",
+    "moved_other": "{{count}} файла перемещено в корзину Tazala",
+    "emptyTitle": "Здесь чисто",
+    "scanningTitle": "Анализ ещё идёт",
+    "scanningBody": "Результаты появятся здесь, когда анализ закончится."
+  },
+  "groups": {
+    "best": "Лучшее",
+    "keep": "оставить",
+    "markedForTrash": "отмечено к удалению",
+    "notSelected": "не выбрано",
+    "summary_one": "{{count}} фото · освободится {{size}}",
+    "summary_few": "{{count}} фото · освободится {{size}}",
+    "summary_many": "{{count}} фото · освободится {{size}}",
+    "summary_other": "{{count}} фото · освободится {{size}}",
+    "itemA11y": "Фото {{index}} из {{total}}. {{best}} {{state}}"
+  },
+  "selection": {
+    "summary_one": "Выбран {{count}} · {{size}}",
+    "summary_few": "Выбрано {{count}} · {{size}}",
+    "summary_many": "Выбрано {{count}} · {{size}}",
+    "summary_other": "Выбрано {{count}} · {{size}}",
+    "selectAll": "Выбрать всё",
+    "clear": "Снять выбор",
+    "moveToTrash_one": "В корзину Tazala: {{count}}",
+    "moveToTrash_few": "В корзину Tazala: {{count}}",
+    "moveToTrash_many": "В корзину Tazala: {{count}}",
+    "moveToTrash_other": "В корзину Tazala: {{count}}"
+  },
+  "swipe": {
+    "title": "Разбор свайпами",
+    "chooseMonth": "Выберите месяц",
+    "random": "Случайные фото",
+    "randomHint": "Случайная подборка из всей галереи",
+    "monthLabel_one": "{{month}} · {{formatted}} фото",
+    "monthLabel_few": "{{month}} · {{formatted}} фото",
+    "monthLabel_many": "{{month}} · {{formatted}} фото",
+    "monthLabel_other": "{{month}} · {{formatted}} фото",
+    "monthDone": "Разобрано",
+    "monthProgress": "Разобрано {{reviewed}} из {{total}}",
+    "emptyTitle": "Пока нет фото",
+    "emptyBody": "Фото появятся здесь после анализа галереи.",
+    "position": "{{current}} из {{total}}",
+    "keep": "Оставить",
+    "toTrash": "Удалить",
+    "undo": "Отменить",
+    "keepHint": "Оставляет фото и показывает следующее",
+    "trashHint": "Перемещает фото в корзину Tazala",
+    "cardHint": "Свайп влево — удалить, вправо — оставить, или используйте кнопки ниже",
+    "cardA11y": "Фото от {{date}}, {{size}}",
+    "gestureHint": "← удалить   ·   оставить →",
+    "allDoneTitle": "Уже разобрано",
+    "allDoneBody": "Вы просмотрели все фото здесь.",
+    "finishedTitle": "Готово!",
+    "finishedBody_one": "{{count}} фото ({{size}}) в корзине Tazala. Ничего не удалится без вашего подтверждения.",
+    "finishedBody_few": "{{count}} фото ({{size}}) в корзине Tazala. Ничего не удалится без вашего подтверждения.",
+    "finishedBody_many": "{{count}} фото ({{size}}) в корзине Tazala. Ничего не удалится без вашего подтверждения.",
+    "finishedBody_other": "{{count}} фото ({{size}}) в корзине Tazala. Ничего не удалится без вашего подтверждения.",
+    "otherMonths": "Другие месяцы"
+  },
+  "trash": {
+    "title": "Корзина Tazala",
+    "open": "Открыть корзину",
+    "openWithCount_one": "Корзина Tazala, {{count}} файл",
+    "openWithCount_few": "Корзина Tazala, {{count}} файла",
+    "openWithCount_many": "Корзина Tazala, {{count}} файлов",
+    "openWithCount_other": "Корзина Tazala, {{count}} файла",
+    "description": "Здесь ещё ничего не удалено. Нажмите на фото, чтобы вернуть их, или удалите всё разом.",
+    "emptyTitle": "Корзина пуста",
+    "emptyBody": "Здесь появятся фото, которые вы отметите в категориях или в свайп-режиме.",
+    "restore_one": "Вернуть {{count}} файл",
+    "restore_few": "Вернуть {{count}} файла",
+    "restore_many": "Вернуть {{count}} файлов",
+    "restore_other": "Вернуть {{count}} файла",
+    "restored_one": "{{count}} файл возвращён",
+    "restored_few": "{{count}} файла возвращено",
+    "restored_many": "{{count}} файлов возвращено",
+    "restored_other": "{{count}} файла возвращено",
+    "selectedForRestore": "выбрано для возврата",
+    "deleteAll_one": "Удалить {{count}} файл ({{size}})",
+    "deleteAll_few": "Удалить {{count}} файла ({{size}})",
+    "deleteAll_many": "Удалить {{count}} файлов ({{size}})",
+    "deleteAll_other": "Удалить {{count}} файла ({{size}})",
+    "confirmTitle_one": "Удалить {{count}} файл?",
+    "confirmTitle_few": "Удалить {{count}} файла?",
+    "confirmTitle_many": "Удалить {{count}} файлов?",
+    "confirmTitle_other": "Удалить {{count}} файла?",
+    "confirmBodyIos": "{{size}} переместятся в «Недавно удалённые» приложения «Фото». iOS попросит подтвердить удаление.",
+    "confirmBodyAndroid": "{{size}} будут удалены из галереи. Телефон может попросить подтвердить удаление.",
+    "confirmAction": "Удалить",
+    "cancelled": "Удаление отменено. Ничего не удалено.",
+    "partial_one": "{{count}} файл не удалось удалить, он остался в корзине.",
+    "partial_few": "{{count}} файла не удалось удалить, они остались в корзине.",
+    "partial_many": "{{count}} файлов не удалось удалить, они остались в корзине.",
+    "partial_other": "{{count}} файла не удалось удалить, они остались в корзине.",
+    "failed": "Не удалось удалить файлы. Попробуйте ещё раз.",
+    "freedTitle": "Место освобождено!",
+    "freedBody_one": "Удалён {{count}} файл.",
+    "freedBody_few": "Удалено {{count}} файла.",
+    "freedBody_many": "Удалено {{count}} файлов.",
+    "freedBody_other": "Удалено {{count}} файла.",
+    "freedA11y_one": "Освобождено {{size}}, удалён {{count}} файл",
+    "freedA11y_few": "Освобождено {{size}}, удалено {{count}} файла",
+    "freedA11y_many": "Освобождено {{size}}, удалено {{count}} файлов",
+    "freedA11y_other": "Освобождено {{size}}, удалено {{count}} файла",
+    "iosRecentlyDeleted": "На iPhone удалённые фото попадают в «Недавно удалённые» приложения «Фото». Место освободится, когда вы очистите этот альбом, или автоматически через 30 дней."
+  },
+  "settings": {
+    "title": "Настройки",
+    "language": "Язык",
+    "languageSystem": "Язык системы",
+    "theme": "Тема",
+    "themeSystem": "Как в системе",
+    "themeLight": "Светлая",
+    "themeDark": "Тёмная",
+    "similarity": "Чувствительность поиска похожих",
+    "similarityDescription": "Насколько фото должны быть похожи, чтобы попасть в одну группу.",
+    "similarityLow": "Низкая",
+    "similarityLowHint": "Только почти одинаковые снимки",
+    "similarityMedium": "Средняя",
+    "similarityMediumHint": "Рекомендуется",
+    "similarityHigh": "Высокая",
+    "similarityHighHint": "Находит больше, но может объединить разные снимки",
+    "largeVideo": "Порог «большого видео»",
+    "largeVideoOption": "От {{mb}} МБ",
+    "library": "Галерея",
+    "rescan": "Пересканировать галерею",
+    "rescanTitle": "Пересканировать галерею?",
+    "rescanBody": "Все фото будут проанализированы заново. Это может занять несколько минут.",
+    "rescanAction": "Пересканировать",
+    "resetSwipes": "Сбросить прогресс свайпов",
+    "resetSwipesTitle": "Сбросить прогресс свайпов?",
+    "resetSwipesBody": "Все месяцы снова станут доступны для разбора. Корзина не изменится.",
+    "resetSwipesAction": "Сбросить",
+    "about": "О приложении",
+    "version": "Tazala {{version}}",
+    "free": "Tazala бесплатна, без рекламы и работает без интернета."
+  },
+  "privacy": {
+    "title": "Политика конфиденциальности",
+    "updated": "Обновлено: октябрь 2026",
+    "summary": {
+      "title": "Коротко",
+      "body": "Tazala не собирает, не передаёт и не продаёт никакие данные. Фото и видео анализируются только на вашем устройстве и никогда его не покидают."
+    },
+    "access": {
+      "title": "Доступ к фото",
+      "body": "Tazala запрашивает доступ к галерее, чтобы находить похожие фото, дубликаты, скриншоты, размытые снимки и большие видео. Вы можете ограничить или отозвать доступ в любой момент в настройках телефона."
+    },
+    "processing": {
+      "title": "Как устроен анализ",
+      "body": "Приложение читает уменьшенные копии фото и вычисляет технические отпечатки (например, оценку резкости и хеш изображения). Оригинальные файлы не копируются и не изменяются."
+    },
+    "storage": {
+      "title": "Что хранится",
+      "body": "Результаты анализа, ваши решения и корзина Tazala хранятся в локальной базе данных внутри приложения. Они удаляются вместе с приложением."
+    },
+    "network": {
+      "title": "Интернет, аналитика и реклама",
+      "body": "Tazala не делает сетевых запросов. Нет аналитики, трекинга, рекламы, сбора отчётов о сбоях и аккаунтов."
+    },
+    "deletion": {
+      "title": "Удаление фото",
+      "body": "Фото удаляются только после вашего подтверждения в приложении и в системном окне. На iPhone удалённые фото 30 дней хранятся в «Недавно удалённых»."
+    },
+    "contact": {
+      "title": "Связь",
+      "body": "Если у вас есть вопросы о конфиденциальности, свяжитесь с разработчиком через страницу приложения в App Store или Google Play."
+    }
+  },
+  "benchmark": {
+    "title": "Бенчмарк"
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "common": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "next": "Next",
+    "retry": "Try again",
+    "great": "Great",
+    "errorTitle": "Something went wrong",
+    "errorBody": "Could not load the data. Please try again."
+  },
+  "units": {
+    "b": "B",
+    "kb": "KB",
+    "mb": "MB",
+    "gb": "GB"
+  },
+  "onboarding": {
+    "intro": {
+      "title": "Free up space in minutes",
+      "body": "Tazala finds similar shots, duplicates, screenshots, blurry photos and large videos, so you can review your gallery quickly."
+    },
+    "privacy": {
+      "title": "Your photos never leave your phone",
+      "body": "All analysis happens on this device. Tazala has no servers, no accounts and no tracking, and it never uploads anything."
+    },
+    "access": {
+      "title": "Access to your gallery",
+      "body": "Tazala needs access to your photos and videos to analyze them. Nothing is deleted without your confirmation."
+    },
+    "allowAccess": "Allow access",
+    "continueWithout": "Continue without access",
+    "pageOf": "Page {{page}} of {{total}}"
+  },
+  "permission": {
+    "deniedTitle": "No access to photos",
+    "deniedBody": "Tazala can't see your gallery. Allow access to photos and videos in Settings to start cleaning up.",
+    "openSettings": "Open Settings",
+    "limitedTitle": "Access to selected photos only",
+    "limitedBody": "Tazala only sees the photos you selected, so the results will be incomplete. Select more photos or allow full access.",
+    "changeSelection": "Change selection",
+    "allowFull": "Allow full access"
+  },
+  "dashboard": {
+    "freedTitle": "Freed with Tazala",
+    "freedA11y": "Freed with Tazala: {{size}}",
+    "deletedCount_one": "{{formatted}} file deleted",
+    "deletedCount_other": "{{formatted}} files deleted",
+    "photos_one": "photo",
+    "photos_other": "photos",
+    "videos_one": "video",
+    "videos_other": "videos",
+    "occupied": "in use",
+    "swipe": "Review by swiping",
+    "categoriesTitle": "What can be cleaned",
+    "analyzing": "Analyzing…",
+    "nothingFound": "Nothing found",
+    "groupCount_one": "{{count}} group · {{items}} extra",
+    "groupCount_other": "{{count}} groups · {{items}} extra",
+    "itemCount_one": "{{count}} file",
+    "itemCount_other": "{{count}} files",
+    "cloudOnly_one": "{{count}} photo is stored only in iCloud and wasn't analyzed.",
+    "cloudOnly_other": "{{count}} photos are stored only in iCloud and weren't analyzed."
+  },
+  "scan": {
+    "title": "Analyzing your gallery",
+    "paused": "Analysis paused",
+    "syncing_one": "Reading the gallery: {{formatted}} file",
+    "syncing_other": "Reading the gallery: {{formatted}} files",
+    "analyzing": "{{processed}} of {{total}} photos analyzed",
+    "grouping": "Looking for similar photos…",
+    "pause": "Pause",
+    "resume": "Resume",
+    "errorTitle": "Analysis stopped",
+    "errorBody": "Something went wrong while analyzing the gallery. The results found so far are saved."
+  },
+  "categories": {
+    "similar": {
+      "title": "Similar photos",
+      "description": "Series of shots taken within a few minutes. The best photo in each group is kept; the rest are selected for removal. Tap a photo to change the selection.",
+      "empty": "No series of similar photos found."
+    },
+    "duplicates": {
+      "title": "Duplicates",
+      "description": "Identical copies of the same photo. One copy is kept in each group.",
+      "empty": "No duplicates found."
+    },
+    "screenshots": {
+      "title": "Screenshots",
+      "description": "Screenshots, newest first. Select the ones you no longer need.",
+      "empty": "No screenshots found."
+    },
+    "blurry": {
+      "title": "Blurry",
+      "description": "Photos that look out of focus or shaken, the blurriest first.",
+      "empty": "No blurry photos found."
+    },
+    "videos": {
+      "title": "Large videos",
+      "description": "Videos above the size threshold, largest first. You can change the threshold in Settings.",
+      "empty": "No large videos found."
+    }
+  },
+  "category": {
+    "groupsSubtitle_one": "{{formatted}} group",
+    "groupsSubtitle_other": "{{formatted}} groups",
+    "itemsSubtitle_one": "{{formatted}} file",
+    "itemsSubtitle_other": "{{formatted}} files",
+    "itemA11y": "{{date}}, {{size}}, {{state}}",
+    "moved_one": "{{count}} file moved to the Tazala trash",
+    "moved_other": "{{count}} files moved to the Tazala trash",
+    "emptyTitle": "All clean here",
+    "scanningTitle": "Still analyzing",
+    "scanningBody": "Results will appear here once the analysis finishes."
+  },
+  "groups": {
+    "best": "Best",
+    "keep": "keep",
+    "markedForTrash": "selected for removal",
+    "notSelected": "not selected",
+    "summary_one": "{{count}} photo · {{size}} to free",
+    "summary_other": "{{count}} photos · {{size}} to free",
+    "itemA11y": "Photo {{index}} of {{total}}. {{best}} {{state}}"
+  },
+  "selection": {
+    "summary_one": "{{count}} selected · {{size}}",
+    "summary_other": "{{count}} selected · {{size}}",
+    "selectAll": "Select all",
+    "clear": "Clear selection",
+    "moveToTrash_one": "Move {{count}} to Tazala trash",
+    "moveToTrash_other": "Move {{count}} to Tazala trash"
+  },
+  "swipe": {
+    "title": "Swipe review",
+    "chooseMonth": "Choose a month",
+    "random": "Random photos",
+    "randomHint": "A random mix from your whole gallery",
+    "monthLabel_one": "{{month}} · {{formatted}} photo",
+    "monthLabel_other": "{{month}} · {{formatted}} photos",
+    "monthDone": "Reviewed",
+    "monthProgress": "{{reviewed}} of {{total}} reviewed",
+    "emptyTitle": "No photos yet",
+    "emptyBody": "Photos will appear here after the gallery is analyzed.",
+    "position": "{{current}} of {{total}}",
+    "keep": "Keep",
+    "toTrash": "Remove",
+    "undo": "Undo",
+    "keepHint": "Keeps this photo and shows the next one",
+    "trashHint": "Moves this photo to the Tazala trash",
+    "cardHint": "Swipe left to remove, right to keep, or use the buttons below",
+    "cardA11y": "Photo from {{date}}, {{size}}",
+    "gestureHint": "← remove   ·   keep →",
+    "allDoneTitle": "Already reviewed",
+    "allDoneBody": "You've reviewed every photo here.",
+    "finishedTitle": "Done!",
+    "finishedBody_one": "{{count}} photo ({{size}}) is in the Tazala trash. Nothing is deleted until you confirm.",
+    "finishedBody_other": "{{count}} photos ({{size}}) are in the Tazala trash. Nothing is deleted until you confirm.",
+    "otherMonths": "Other months"
+  },
+  "trash": {
+    "title": "Tazala trash",
+    "open": "Open trash",
+    "openWithCount_one": "Tazala trash, {{count}} file",
+    "openWithCount_other": "Tazala trash, {{count}} files",
+    "description": "Nothing here has been deleted yet. Tap photos to put them back, or delete everything at once.",
+    "emptyTitle": "Trash is empty",
+    "emptyBody": "Photos you select in categories or in swipe mode will appear here.",
+    "restore_one": "Put back {{count}} file",
+    "restore_other": "Put back {{count}} files",
+    "restored_one": "{{count}} file put back",
+    "restored_other": "{{count}} files put back",
+    "selectedForRestore": "selected to put back",
+    "deleteAll_one": "Delete {{count}} file ({{size}})",
+    "deleteAll_other": "Delete {{count}} files ({{size}})",
+    "confirmTitle_one": "Delete {{count}} file?",
+    "confirmTitle_other": "Delete {{count}} files?",
+    "confirmBodyIos": "{{size}} will be moved to Recently Deleted in the Photos app. iOS will ask you to confirm.",
+    "confirmBodyAndroid": "{{size}} will be deleted from your gallery. Your phone may ask you to confirm.",
+    "confirmAction": "Delete",
+    "cancelled": "Deletion cancelled. Nothing was deleted.",
+    "partial_one": "{{count}} file couldn't be deleted and stays in the trash.",
+    "partial_other": "{{count}} files couldn't be deleted and stay in the trash.",
+    "failed": "Could not delete the files. Please try again.",
+    "freedTitle": "Space freed!",
+    "freedBody_one": "{{count}} file deleted.",
+    "freedBody_other": "{{count}} files deleted.",
+    "freedA11y_one": "Freed {{size}}, {{count}} file deleted",
+    "freedA11y_other": "Freed {{size}}, {{count}} files deleted",
+    "iosRecentlyDeleted": "On iPhone, deleted photos go to “Recently Deleted” in the Photos app. The space is freed after you empty that album or automatically after 30 days."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageSystem": "System language",
+    "theme": "Theme",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "similarity": "Similar photo sensitivity",
+    "similarityDescription": "How alike photos must be to end up in one group.",
+    "similarityLow": "Low",
+    "similarityLowHint": "Only near-identical shots",
+    "similarityMedium": "Medium",
+    "similarityMediumHint": "Recommended",
+    "similarityHigh": "High",
+    "similarityHighHint": "Finds more, may group different shots",
+    "largeVideo": "Large video threshold",
+    "largeVideoOption": "From {{mb}} MB",
+    "library": "Gallery",
+    "rescan": "Rescan gallery",
+    "rescanTitle": "Rescan the gallery?",
+    "rescanBody": "All photos will be analyzed again. This can take a few minutes.",
+    "rescanAction": "Rescan",
+    "resetSwipes": "Reset swipe progress",
+    "resetSwipesTitle": "Reset swipe progress?",
+    "resetSwipesBody": "Every month will be available for review again. The trash is not affected.",
+    "resetSwipesAction": "Reset",
+    "about": "About",
+    "version": "Tazala {{version}}",
+    "free": "Tazala is free, has no ads and works without internet."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "updated": "Last updated: October 2026",
+    "summary": {
+      "title": "In short",
+      "body": "Tazala doesn't collect, send or sell any data. Your photos and videos are analyzed only on your device and never leave it."
+    },
+    "access": {
+      "title": "Access to photos",
+      "body": "Tazala asks for access to your photo library to find similar photos, duplicates, screenshots, blurry photos and large videos. You can limit or revoke access at any time in your phone's settings."
+    },
+    "processing": {
+      "title": "How analysis works",
+      "body": "The app reads small thumbnails of your photos and calculates technical fingerprints (for example, a sharpness score and an image hash). Original files aren't copied or changed."
+    },
+    "storage": {
+      "title": "What is stored",
+      "body": "Analysis results, your choices and the Tazala trash are kept in a local database inside the app. They're removed when you uninstall the app."
+    },
+    "network": {
+      "title": "Internet, analytics and ads",
+      "body": "Tazala makes no network requests. There's no analytics, tracking, advertising or crash reporting, and no accounts."
+    },
+    "deletion": {
+      "title": "Deleting photos",
+      "body": "Photos are deleted only after you confirm in the app and in the system dialog. On iPhone, deleted photos go to “Recently Deleted” for 30 days."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "If you have questions about privacy, contact the developer through the App Store or Google Play page."
+    }
+  },
+  "benchmark": {
+    "title": "Benchmark"
+  }
+}

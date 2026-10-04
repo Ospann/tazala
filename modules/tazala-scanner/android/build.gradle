@@ -1,0 +1,22 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'app.tazala.scanner'
+version = '0.2.0'
+
+android {
+  namespace "app.tazala.scanner"
+  defaultConfig {
+    versionCode 2
+    versionName "0.2.0"
+  }
+  lint {
+    abortOnError false
+  }
+}
+
+dependencies {
+  testImplementation 'junit:junit:4.13.2'
+}
