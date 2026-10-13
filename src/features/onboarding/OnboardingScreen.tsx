@@ -1,26 +1,30 @@
 import { router } from 'expo-router';
-import { useRef, useState } from 'react';
-import {
-  Linking,
-  ScrollView,
-  useWindowDimensions,
-  View,
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
-} from 'react-native';
+import { useState, type ComponentType } from 'react';
+import { Linking, useWindowDimensions, View } from 'react-native';
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedRef,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  type SharedValue,
+} from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { useTranslation } from 'react-i18next';
 
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
-import { Icon, type IconName } from '@/components/Icon';
 import { Screen } from '@/components/Screen';
 import { runScan } from '@/features/scan/scanService';
 import { hasLibraryAccess, usePermissionStore } from '@/stores/permissionStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { createStyles } from '@/theme/ThemeProvider';
 
+import { AccessIllustration, IntroIllustration, PrivacyIllustration } from './Illustrations';
+
 interface Page {
-  icon: IconName;
+  Illustration: ComponentType<{ active: boolean }>;
   title: string;
   body: string;
 }
@@ -29,7 +33,8 @@ export function OnboardingScreen() {
   const styles = useStyles();
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollX = useSharedValue(0);
   const [page, setPage] = useState(0);
   const [requesting, setRequesting] = useState(false);
   const [denied, setDenied] = useState(false);
@@ -38,17 +43,17 @@ export function OnboardingScreen() {
 
   const pages: Page[] = [
     {
-      icon: 'sparkles-outline',
+      Illustration: IntroIllustration,
       title: t('onboarding.intro.title'),
       body: t('onboarding.intro.body'),
     },
     {
-      icon: 'lock-closed-outline',
+      Illustration: PrivacyIllustration,
       title: t('onboarding.privacy.title'),
       body: t('onboarding.privacy.body'),
     },
     {
-      icon: 'images-outline',
+      Illustration: AccessIllustration,
       title: t('onboarding.access.title'),
       body: t('onboarding.access.body'),
     },
@@ -60,9 +65,14 @@ export function OnboardingScreen() {
     setPage(index);
   };
 
-  const onScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setPage(Math.round(event.nativeEvent.contentOffset.x / width));
-  };
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollX.set(event.contentOffset.x);
+    },
+    onMomentumEnd: (event) => {
+      scheduleOnRN(setPage, Math.round(event.contentOffset.x / width));
+    },
+  });
 
   const finish = async () => {
     await updateSetting('onboardingCompleted', true);
@@ -86,28 +96,26 @@ export function OnboardingScreen() {
 
   return (
     <Screen>
-      <ScrollView
+      <Animated.ScrollView
         ref={scrollRef}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={onScrollEnd}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
         scrollEnabled={!requesting}
       >
-        {pages.map((item) => (
-          <View key={item.title} style={[styles.page, { width }]}>
-            <View style={styles.illustration}>
-              <Icon name={item.icon} size={64} color="primary" />
-            </View>
-            <AppText variant="title" align="center" accessibilityRole="header">
-              {item.title}
-            </AppText>
-            <AppText tone="secondary" align="center">
-              {item.body}
-            </AppText>
-          </View>
+        {pages.map((item, index) => (
+          <ParallaxPage
+            key={item.title}
+            index={index}
+            width={width}
+            scrollX={scrollX}
+            page={item}
+            active={page === index}
+          />
         ))}
-      </ScrollView>
+      </Animated.ScrollView>
 
       <View style={styles.footer}>
         <View
@@ -116,7 +124,7 @@ export function OnboardingScreen() {
           accessibilityLabel={t('onboarding.pageOf', { page: page + 1, total: pages.length })}
         >
           {pages.map((item, index) => (
-            <View key={item.title} style={[styles.dot, index === page && styles.dotActive]} />
+            <PageDot key={item.title} index={index} width={width} scrollX={scrollX} />
           ))}
         </View>
         {denied && isLast ? (
@@ -150,6 +158,75 @@ export function OnboardingScreen() {
   );
 }
 
+function ParallaxPage({
+  index,
+  width,
+  scrollX,
+  page,
+  active,
+}: {
+  index: number;
+  width: number;
+  scrollX: SharedValue<number>;
+  page: Page;
+  active: boolean;
+}) {
+  const styles = useStyles();
+  const { Illustration } = page;
+  const illustrationStyle = useAnimatedStyle(() => {
+    const offset = scrollX.get() - index * width;
+    return {
+      opacity: interpolate(Math.abs(offset), [0, width * 0.8], [1, 0], Extrapolation.CLAMP),
+      transform: [
+        { translateX: offset * 0.45 },
+        { scale: interpolate(Math.abs(offset), [0, width], [1, 0.8], Extrapolation.CLAMP) },
+      ],
+    };
+  });
+  const textStyle = useAnimatedStyle(() => {
+    const offset = scrollX.get() - index * width;
+    return {
+      opacity: interpolate(Math.abs(offset), [0, width * 0.6], [1, 0], Extrapolation.CLAMP),
+      transform: [{ translateX: offset * -0.15 }],
+    };
+  });
+  return (
+    <View style={[styles.page, { width }]}>
+      <Animated.View style={[styles.illustration, illustrationStyle]}>
+        <Illustration active={active} />
+      </Animated.View>
+      <Animated.View style={[styles.copy, textStyle]}>
+        <AppText variant="title" align="center" accessibilityRole="header">
+          {page.title}
+        </AppText>
+        <AppText tone="secondary" align="center">
+          {page.body}
+        </AppText>
+      </Animated.View>
+    </View>
+  );
+}
+
+function PageDot({
+  index,
+  width,
+  scrollX,
+}: {
+  index: number;
+  width: number;
+  scrollX: SharedValue<number>;
+}) {
+  const styles = useStyles();
+  const style = useAnimatedStyle(() => {
+    const distance = Math.abs(scrollX.get() / width - index);
+    return {
+      width: interpolate(distance, [0, 1], [24, 8], Extrapolation.CLAMP),
+      opacity: interpolate(distance, [0, 1], [1, 0.35], Extrapolation.CLAMP),
+    };
+  });
+  return <Animated.View style={[styles.dot, styles.dotActive, style]} />;
+}
+
 const useStyles = createStyles((theme) => ({
   page: {
     flex: 1,
@@ -159,13 +236,10 @@ const useStyles = createStyles((theme) => ({
     gap: theme.spacing.lg,
   },
   illustration: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    backgroundColor: theme.colors.primarySoft,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: theme.spacing.xl,
+  },
+  copy: {
+    gap: theme.spacing.lg,
   },
   footer: {
     paddingHorizontal: theme.spacing.xl,

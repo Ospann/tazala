@@ -1,15 +1,17 @@
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
   interpolate,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
+  type SharedValue,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import { useTranslation } from 'react-i18next';
@@ -29,6 +31,7 @@ interface SwipeCardProps {
   item: MediaItem;
   onSwiped: (item: MediaItem, direction: SwipeDirection) => void;
   active: boolean;
+  drag: SharedValue<number>;
 }
 
 const VELOCITY_THRESHOLD = 800;
@@ -38,7 +41,7 @@ function crossedHaptic() {
 }
 
 export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function SwipeCard(
-  { item, onSwiped, active },
+  { item, onSwiped, active, drag },
   ref,
 ) {
   const styles = useStyles();
@@ -50,6 +53,17 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
   const translateY = useSharedValue(0);
   const crossed = useSharedValue(0);
   const done = useSharedValue(false);
+
+  useEffect(() => {
+    drag.set(0);
+  }, [drag]);
+
+  useAnimatedReaction(
+    () => translateX.get(),
+    (value) => {
+      drag.set(Math.min(Math.abs(value) / threshold, 1));
+    },
+  );
 
   const finish = (direction: SwipeDirection) => {
     onSwiped(item, direction);
@@ -105,11 +119,19 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
       },
     ],
   }));
-  const keepStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(translateX.get(), [0, threshold], [0, 1], Extrapolation.CLAMP),
+  const keepStyle = useAnimatedStyle(() => {
+    const amount = interpolate(translateX.get(), [0, threshold], [0, 1], Extrapolation.CLAMP);
+    return { opacity: amount, transform: [{ rotate: '-10deg' }, { scale: 0.7 + amount * 0.3 }] };
+  });
+  const trashStyle = useAnimatedStyle(() => {
+    const amount = interpolate(translateX.get(), [-threshold, 0], [1, 0], Extrapolation.CLAMP);
+    return { opacity: amount, transform: [{ rotate: '10deg' }, { scale: 0.7 + amount * 0.3 }] };
+  });
+  const keepTintStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(translateX.get(), [0, threshold * 1.4], [0, 0.32], Extrapolation.CLAMP),
   }));
-  const trashStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(translateX.get(), [-threshold, 0], [1, 0], Extrapolation.CLAMP),
+  const trashTintStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(translateX.get(), [-threshold * 1.4, 0], [0.32, 0], Extrapolation.CLAMP),
   }));
 
   return (
@@ -130,6 +152,11 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
           contentFit="contain"
           recyclingKey={item.id}
           cachePolicy="memory"
+        />
+        <Animated.View style={[styles.tint, styles.keepTint, keepTintStyle]} pointerEvents="none" />
+        <Animated.View
+          style={[styles.tint, styles.trashTint, trashTintStyle]}
+          pointerEvents="none"
         />
         <View style={styles.meta}>
           <AppText variant="label" tone="onPrimary">
@@ -192,11 +219,22 @@ const useStyles = createStyles((theme) => ({
   stampKeep: {
     left: theme.spacing.xl,
     backgroundColor: theme.colors.primary,
-    transform: [{ rotate: '-10deg' }],
   },
   stampTrash: {
     right: theme.spacing.xl,
     backgroundColor: theme.colors.danger,
-    transform: [{ rotate: '10deg' }],
+  },
+  tint: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  keepTint: {
+    backgroundColor: theme.colors.primaryBright,
+  },
+  trashTint: {
+    backgroundColor: theme.colors.coral,
   },
 }));

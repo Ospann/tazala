@@ -1,6 +1,7 @@
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
+import Animated, { FadeInDown, ZoomIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,7 @@ import { useFormat } from '@/utils/useFormat';
 
 import { CategoryCard } from './CategoryCard';
 import { categoryOrder } from './categoryMeta';
+import { FreedHero } from './FreedHero';
 import { LimitedAccessBanner, PermissionDenied } from './PermissionNotice';
 import { ScanCard } from './ScanCard';
 
@@ -45,7 +47,6 @@ export function DashboardScreen() {
     }
   }, [hasAccess]);
 
-  const freed = format.bytesParts(library.freedBytes);
   const pending = phase !== 'idle' && library.lastScanAt === null;
 
   return (
@@ -62,11 +63,16 @@ export function DashboardScreen() {
               onPress={() => router.push('/trash')}
             />
             {library.trash.count > 0 ? (
-              <View style={styles.badge} pointerEvents="none">
+              <Animated.View
+                key={library.trash.count}
+                entering={ZoomIn.springify().damping(12)}
+                style={styles.badge}
+                pointerEvents="none"
+              >
                 <AppText variant="caption" tone="onDanger">
                   {library.trash.count > 999 ? '999+' : library.trash.count}
                 </AppText>
-              </View>
+              </Animated.View>
             ) : null}
           </View>
           <IconButton
@@ -90,33 +96,9 @@ export function DashboardScreen() {
             />
           }
         >
-          <View
-            style={styles.hero}
-            accessible
-            accessibilityLabel={t('dashboard.freedA11y', {
-              size: format.bytes(library.freedBytes),
-            })}
-          >
-            <AppText variant="caption" tone="secondary">
-              {t('dashboard.freedTitle')}
-            </AppText>
-            <View style={styles.heroValue}>
-              <AppText variant="hero" tone="accent">
-                {freed.value}
-              </AppText>
-              <AppText variant="title" tone="accent">
-                {freed.unit}
-              </AppText>
-            </View>
-            <AppText variant="caption" tone="secondary">
-              {t('dashboard.deletedCount', {
-                count: library.deletedCount,
-                formatted: format.number(library.deletedCount),
-              })}
-            </AppText>
-          </View>
+          <FreedHero freedBytes={library.freedBytes} deletedCount={library.deletedCount} />
 
-          <View style={styles.summary}>
+          <Animated.View entering={FadeInDown.delay(80).duration(450)} style={styles.summary}>
             <SummaryItem
               icon="image-outline"
               value={format.number(library.totals.photoCount)}
@@ -132,31 +114,39 @@ export function DashboardScreen() {
               value={format.bytes(library.totals.totalBytes)}
               label={t('dashboard.occupied')}
             />
-          </View>
+          </Animated.View>
 
           {status === 'limited' ? <LimitedAccessBanner /> : null}
           <ScanCard />
 
-          <Button
-            label={t('dashboard.swipe')}
-            icon="swap-horizontal"
-            size="large"
-            onPress={() => router.push('/swipe')}
-            disabled={library.totals.photoCount === 0}
-          />
+          <Animated.View entering={FadeInDown.delay(160).duration(450)}>
+            <Button
+              label={t('dashboard.swipe')}
+              icon="swap-horizontal"
+              size="large"
+              onPress={() => router.push('/swipe')}
+              disabled={library.totals.photoCount === 0}
+            />
+          </Animated.View>
 
           <View style={styles.categories}>
             <AppText variant="heading" accessibilityRole="header">
               {t('dashboard.categoriesTitle')}
             </AppText>
             {library.categories
-              ? categoryOrder.map((kind) => (
-                  <CategoryCard
+              ? categoryOrder.map((kind, index) => (
+                  <Animated.View
                     key={kind}
-                    summary={library.categories![kind]}
-                    pending={pending && kind !== 'screenshots' && kind !== 'videos'}
-                    onPress={() => router.push({ pathname: '/category/[kind]', params: { kind } })}
-                  />
+                    entering={FadeInDown.delay(220 + index * 70).duration(450)}
+                  >
+                    <CategoryCard
+                      summary={library.categories![kind]}
+                      pending={pending && kind !== 'screenshots' && kind !== 'videos'}
+                      onPress={() =>
+                        router.push({ pathname: '/category/[kind]', params: { kind } })
+                      }
+                    />
+                  </Animated.View>
                 ))
               : null}
           </View>
@@ -239,16 +229,6 @@ const useStyles = createStyles((theme) => ({
     paddingHorizontal: theme.spacing.lg,
     paddingBottom: theme.spacing.xxxl,
     gap: theme.spacing.lg,
-  },
-  hero: {
-    alignItems: 'center',
-    paddingVertical: theme.spacing.xl,
-    gap: theme.spacing.xs,
-  },
-  heroValue: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: theme.spacing.sm,
   },
   summary: {
     flexDirection: 'row',

@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import Animated, { FadeIn, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 
 import { AppText } from '@/components/AppText';
@@ -42,6 +43,11 @@ export function SwipeDeckScreen({ month }: { month: string }) {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [trashedBytes, setTrashedBytes] = useState(0);
   const cardRef = useRef<SwipeCardHandle>(null);
+  const drag = useSharedValue(0);
+  const nextStyle = useAnimatedStyle(() => ({
+    opacity: 0.55 + 0.45 * drag.get(),
+    transform: [{ translateY: 18 * (1 - drag.get()) }, { scale: 0.92 + 0.08 * drag.get() }],
+  }));
 
   useEffect(() => {
     let active = true;
@@ -184,20 +190,26 @@ export function SwipeDeckScreen({ month }: { month: string }) {
         <>
           <View style={styles.deck}>
             {next ? (
-              <View style={styles.nextCard} pointerEvents="none">
+              <Animated.View
+                key={next.id}
+                entering={FadeIn.duration(250)}
+                style={[styles.nextCard, nextStyle]}
+                pointerEvents="none"
+              >
                 <Image
                   source={{ uri: next.uri }}
                   style={styles.nextImage}
                   contentFit="contain"
                   cachePolicy="memory"
                 />
-              </View>
+              </Animated.View>
             ) : null}
             <SwipeCard
               key={current.id}
               ref={cardRef}
               item={current}
               active
+              drag={drag}
               onSwiped={(item, direction) => void onSwiped(item, direction)}
             />
           </View>
@@ -241,14 +253,13 @@ const useStyles = createStyles((theme) => ({
   },
   nextCard: {
     position: 'absolute',
-    top: theme.spacing.md,
-    left: theme.spacing.md,
-    right: theme.spacing.md,
-    bottom: -theme.spacing.sm,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     borderRadius: theme.radii.xl,
     overflow: 'hidden',
-    backgroundColor: theme.colors.surfaceMuted,
-    opacity: 0.6,
+    backgroundColor: theme.scheme === 'dark' ? '#000000' : '#0E1F1C',
   },
   nextImage: {
     flex: 1,

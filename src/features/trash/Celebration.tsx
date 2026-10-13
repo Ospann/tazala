@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import { AccessibilityInfo, Modal, Pressable, View } from 'react-native';
 import Animated, {
   Easing,
+  interpolate,
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withDelay,
   withSpring,
@@ -13,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
+import { Sparkle } from '@/components/motion/Sparkle';
+import { useCountUp } from '@/components/motion/useCountUp';
 import { createStyles, useTheme } from '@/theme/ThemeProvider';
 import { useFormat } from '@/utils/useFormat';
 
@@ -23,30 +27,66 @@ interface CelebrationProps {
   onClose: () => void;
 }
 
-const PARTICLES = 14;
+const PARTICLES = 18;
 
-function Particle({ index, color }: { index: number; color: string }) {
+function Particle({
+  index,
+  color,
+  reduceMotion,
+}: {
+  index: number;
+  color: string;
+  reduceMotion: boolean;
+}) {
   const styles = useStyles();
   const progress = useSharedValue(0);
-  const angle = (index / PARTICLES) * Math.PI * 2;
-  const distance = 110 + (index % 3) * 30;
+  const angle = (index / PARTICLES) * Math.PI * 2 + (index % 2) * 0.2;
+  const distance = 95 + (index % 4) * 26;
+  const spin = (index % 2 === 0 ? 1 : -1) * (180 + (index % 3) * 90);
+  const size = index % 3 === 0 ? 18 : index % 3 === 1 ? 12 : 9;
 
   useEffect(() => {
+    if (reduceMotion) return;
     progress.set(
-      withDelay(index * 15, withTiming(1, { duration: 900, easing: Easing.out(Easing.cubic) })),
+      withDelay(
+        120 + (index % 6) * 25,
+        withTiming(1, { duration: 1100, easing: Easing.out(Easing.cubic) }),
+      ),
     );
-  }, [index, progress]);
+  }, [index, progress, reduceMotion]);
 
   const style = useAnimatedStyle(() => ({
-    opacity: 1 - progress.get(),
+    opacity: interpolate(progress.get(), [0, 0.15, 0.75, 1], [0, 1, 1, 0]),
     transform: [
       { translateX: Math.cos(angle) * distance * progress.get() },
-      { translateY: Math.sin(angle) * distance * progress.get() },
-      { scale: 1 - progress.get() * 0.5 },
+      {
+        translateY:
+          Math.sin(angle) * distance * progress.get() + 40 * progress.get() * progress.get(),
+      },
+      { rotate: `${spin * progress.get()}deg` },
+      { scale: 1.2 - progress.get() * 0.6 },
     ],
   }));
 
-  return <Animated.View style={[styles.particle, { backgroundColor: color }, style]} />;
+  return (
+    <Animated.View style={[styles.particle, style]}>
+      <Sparkle size={size} color={color} twinkle={false} />
+    </Animated.View>
+  );
+}
+
+function Shockwave({ color, reduceMotion }: { color: string; reduceMotion: boolean }) {
+  const styles = useStyles();
+  const progress = useSharedValue(0);
+  useEffect(() => {
+    if (reduceMotion) return;
+    progress.set(withTiming(1, { duration: 900, easing: Easing.out(Easing.quad) }));
+  }, [progress, reduceMotion]);
+  const style = useAnimatedStyle(() => ({
+    opacity: 0.6 * (1 - progress.get()),
+    transform: [{ scale: 0.4 + progress.get() * 1.4 }],
+  }));
+  return <Animated.View style={[styles.shockwave, { borderColor: color }, style]} />;
 }
 
 export function Celebration({ freedBytes, deletedCount, showIosHint, onClose }: CelebrationProps) {
@@ -56,7 +96,9 @@ export function Celebration({ freedBytes, deletedCount, showIosHint, onClose }: 
   const format = useFormat();
   const scale = useSharedValue(0.6);
   const opacity = useSharedValue(0);
-  const freed = format.bytesParts(freedBytes);
+  const reduceMotion = useReducedMotion();
+  const animatedBytes = useCountUp(freedBytes, 1300, 0);
+  const freed = format.bytesParts(animatedBytes);
 
   useEffect(() => {
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -78,14 +120,28 @@ export function Celebration({ freedBytes, deletedCount, showIosHint, onClose }: 
       <View style={styles.overlay} accessibilityViewIsModal>
         <View style={styles.sheet}>
           <View style={styles.burst}>
+            <Shockwave color={theme.colors.primaryBright} reduceMotion={reduceMotion} />
             {Array.from({ length: PARTICLES }, (_, index) => (
               <Particle
                 key={index}
                 index={index}
+                reduceMotion={reduceMotion}
                 color={colors[index % colors.length] ?? theme.colors.primary}
               />
             ))}
             <Animated.View style={[styles.value, valueStyle]}>
+              <Sparkle
+                size={20}
+                color={theme.colors.primaryBright}
+                style={styles.staySparkleLeft}
+                delay={1200}
+              />
+              <Sparkle
+                size={14}
+                color={theme.colors.coral}
+                style={styles.staySparkleRight}
+                delay={1500}
+              />
               <AppText variant="hero" tone="accent">
                 {freed.value}
               </AppText>
@@ -142,7 +198,7 @@ const useStyles = createStyles((theme) => ({
     gap: theme.spacing.md,
   },
   burst: {
-    height: 160,
+    height: 190,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -153,9 +209,23 @@ const useStyles = createStyles((theme) => ({
   },
   particle: {
     position: 'absolute',
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+  },
+  staySparkleLeft: {
+    position: 'absolute',
+    left: -22,
+    top: -6,
+  },
+  staySparkleRight: {
+    position: 'absolute',
+    right: -18,
+    bottom: 4,
+  },
+  shockwave: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    borderWidth: 4,
   },
   hint: {
     padding: theme.spacing.md,

@@ -1,6 +1,15 @@
 import { Image } from 'expo-image';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Pressable, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
+  ZoomIn,
+} from 'react-native-reanimated';
 
 import type { MediaItem } from '@/db/mediaItem';
 import { createStyles } from '@/theme/ThemeProvider';
@@ -31,52 +40,76 @@ function ThumbnailComponent({
   onLongPress,
 }: ThumbnailProps) {
   const styles = useStyles();
+  const reduceMotion = useReducedMotion();
+  const scale = useSharedValue(1);
+  const previous = useRef({ id: item.id, selected });
+
+  useEffect(() => {
+    const changed = previous.current.id === item.id && previous.current.selected !== selected;
+    previous.current = { id: item.id, selected };
+    if (!changed || reduceMotion) return;
+    scale.set(
+      withSequence(
+        withTiming(0.9, { duration: 90 }),
+        withSpring(1, { damping: 9, stiffness: 260 }),
+      ),
+    );
+  }, [item.id, reduceMotion, scale, selected]);
+
+  const bounceStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
+
   return (
-    <Pressable
-      accessibilityRole={onPress ? 'checkbox' : 'image'}
-      accessibilityLabel={accessibilityLabel}
-      accessibilityState={onPress ? { checked: selected } : undefined}
-      onPress={onPress ? () => onPress(item) : undefined}
-      onLongPress={onLongPress ? () => onLongPress(item) : undefined}
-      style={[styles.container, { width: size, height: size }]}
-    >
-      <Image
-        source={{ uri: item.uri }}
-        style={styles.image}
-        contentFit="cover"
-        recyclingKey={item.id}
-        cachePolicy="memory"
-        transition={120}
-      />
-      {selected ? <View style={styles.selectedOverlay} /> : null}
-      {onPress ? (
-        <View style={[styles.check, selected && styles.checkSelected]}>
-          {selected ? <Icon name="checkmark" size={16} color="onDanger" /> : null}
-        </View>
-      ) : null}
-      {badge ? (
-        <View style={styles.badge}>
-          <AppText variant="caption" tone="onPrimary" numberOfLines={1}>
-            {badge}
-          </AppText>
-        </View>
-      ) : null}
-      {item.mediaType === 'video' && item.duration != null ? (
-        <View style={styles.duration}>
-          <Icon name="play" size={12} color="onPrimary" />
-          <AppText variant="caption" tone="onPrimary">
-            {formatDuration(item.duration)}
-          </AppText>
-        </View>
-      ) : null}
-      {caption ? (
-        <View style={styles.caption}>
-          <AppText variant="caption" tone="onPrimary" numberOfLines={1}>
-            {caption}
-          </AppText>
-        </View>
-      ) : null}
-    </Pressable>
+    <Animated.View style={bounceStyle}>
+      <Pressable
+        accessibilityRole={onPress ? 'checkbox' : 'image'}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityState={onPress ? { checked: selected } : undefined}
+        onPress={onPress ? () => onPress(item) : undefined}
+        onLongPress={onLongPress ? () => onLongPress(item) : undefined}
+        style={[styles.container, { width: size, height: size }]}
+      >
+        <Image
+          source={{ uri: item.uri }}
+          style={styles.image}
+          contentFit="cover"
+          recyclingKey={item.id}
+          cachePolicy="memory"
+          transition={120}
+        />
+        {selected ? <View style={styles.selectedOverlay} /> : null}
+        {onPress ? (
+          <View style={[styles.check, selected && styles.checkSelected]}>
+            {selected ? (
+              <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>
+                <Icon name="checkmark" size={16} color="onDanger" />
+              </Animated.View>
+            ) : null}
+          </View>
+        ) : null}
+        {badge ? (
+          <View style={styles.badge}>
+            <AppText variant="caption" tone="onPrimary" numberOfLines={1}>
+              {badge}
+            </AppText>
+          </View>
+        ) : null}
+        {item.mediaType === 'video' && item.duration != null ? (
+          <View style={styles.duration}>
+            <Icon name="play" size={12} color="onPrimary" />
+            <AppText variant="caption" tone="onPrimary">
+              {formatDuration(item.duration)}
+            </AppText>
+          </View>
+        ) : null}
+        {caption ? (
+          <View style={styles.caption}>
+            <AppText variant="caption" tone="onPrimary" numberOfLines={1}>
+              {caption}
+            </AppText>
+          </View>
+        ) : null}
+      </Pressable>
+    </Animated.View>
   );
 }
 

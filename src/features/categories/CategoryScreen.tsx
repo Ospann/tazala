@@ -3,6 +3,7 @@ import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 
 import { AppText } from '@/components/AppText';
@@ -224,7 +225,12 @@ export function CategoryScreen({ kind }: { kind: CategoryKind }) {
     >
       <Header title={title} subtitle={subtitle} />
       {notice ? (
-        <View style={styles.notice} accessibilityLiveRegion="polite">
+        <Animated.View
+          entering={FadeInDown.springify().damping(14)}
+          exiting={FadeOutUp}
+          style={styles.notice}
+          accessibilityLiveRegion="polite"
+        >
           <AppText variant="label" style={styles.flex}>
             {notice}
           </AppText>
@@ -234,7 +240,7 @@ export function CategoryScreen({ kind }: { kind: CategoryKind }) {
             onPress={() => router.push('/trash')}
             style={styles.noticeButton}
           />
-        </View>
+        </Animated.View>
       ) : null}
       <View style={styles.flex}>{content}</View>
     </Screen>

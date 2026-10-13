@@ -77,6 +77,14 @@ export default ({ config }: ConfigContext): ExpoConfig =>
       'expo-router',
       'expo-sqlite',
       [
+        'expo-font',
+        {
+          fonts: [
+            './node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf',
+          ],
+        },
+      ],
+      [
         'expo-localization',
         { supportedLocales: { ios: ['en', 'ru', 'kk'], android: ['en', 'ru', 'kk'] } },
       ],
