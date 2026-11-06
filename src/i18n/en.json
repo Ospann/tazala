@@ -24,7 +24,7 @@
     },
     "privacy": {
       "title": "Your photos never leave your phone",
-      "body": "All analysis happens on this device. Tazala has no servers, no accounts and no tracking, and it never uploads anything."
+      "body": "All analysis happens on this device. Tazala has no servers or accounts, and your photos and videos are never uploaded anywhere."
     },
     "access": {
       "title": "Access to your gallery",
@@ -225,14 +225,14 @@
     "resetSwipesAction": "Reset",
     "about": "About",
     "version": "Tazala {{version}}",
-    "free": "Tazala is free, has no ads and works without internet."
+    "free": "Tazala is free and supported by ads. Your photos never leave the phone."
   },
   "privacy": {
     "title": "Privacy policy",
-    "updated": "Last updated: October 2026",
+    "updated": "Last updated: November 2026",
     "summary": {
       "title": "In short",
-      "body": "Tazala doesn't collect, send or sell any data. Your photos and videos are analyzed only on your device and never leave it."
+      "body": "Your photos and videos are analyzed only on your device and never leave it. Tazala doesn't sell data. To keep the app free, it shows non-personalized ads from Google AdMob."
     },
     "access": {
       "title": "Access to photos",
@@ -248,7 +248,7 @@
     },
     "network": {
       "title": "Internet, analytics and ads",
-      "body": "Tazala itself makes no network requests and sends no data anywhere. The only exception: when you tap “Download from iCloud”, iOS downloads your own video from iCloud through the Photos app — the transfer happens only between your phone and Apple. There is no analytics, tracking, advertising, crash reporting or accounts."
+      "body": "Tazala uses the internet only to show ads. After you delete files, the app may show a short ad from Google AdMob. Ads are non-personalized: they aren't based on your interests and aren't used to track you across apps. To serve an ad, Google receives technical device data (for example, device model, system version, IP address and ad interactions) — never your photos, videos or analysis results. When you tap “Download from iCloud”, iOS downloads your own video from iCloud through the Photos app. There is no analytics, crash reporting or accounts."
     },
     "deletion": {
       "title": "Deleting photos",

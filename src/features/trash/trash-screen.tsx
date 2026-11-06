@@ -18,6 +18,7 @@ import { useSelectionMode } from '@/components/use-selection-mode';
 import { getDatabase } from '@/db/database';
 import { matchesMediaFilter, type MediaFilter, type MediaItem } from '@/db/media-item';
 import { getTrashItems, restoreFromTrash } from '@/db/trash-repository';
+import { preloadInterstitial, showInterstitial } from '@/features/ads/interstitial-ad';
 import { useLibraryStore } from '@/stores/library-store';
 import { createStyles, useTheme } from '@/theme/theme-provider';
 import { useFormat } from '@/utils/use-format';
@@ -38,6 +39,10 @@ export function TrashScreen() {
   const [filter, setFilter] = useState<MediaFilter>('all');
   const segments = useMediaFilterSegments();
   const revision = useLibraryStore((state) => state.revision);
+
+  useEffect(() => {
+    preloadInterstitial();
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -125,6 +130,7 @@ export function TrashScreen() {
       const result = await deleteFromLibrary(targetIds);
       mode.exit();
       if (result.deletedCount > 0) {
+        await showInterstitial();
         setOutcome(result);
       }
       if (result.cancelled && result.deletedCount === 0) {

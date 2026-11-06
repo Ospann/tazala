@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
-import { forwardRef, useEffect, useImperativeHandle } from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { type LayoutChangeEvent, useWindowDimensions, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
@@ -39,6 +39,20 @@ interface SwipeCardProps {
 }
 
 const VELOCITY_THRESHOLD = 800;
+const MAX_SCALE = 5;
+const DOUBLE_TAP_SCALE = 2.5;
+const ZOOM_SPRING = { damping: 20, stiffness: 220 };
+
+function clamp(value: number, min: number, max: number) {
+  'worklet';
+  return Math.min(Math.max(value, min), max);
+}
+
+function bound(value: number, size: number, currentScale: number) {
+  'worklet';
+  const limit = (size * (currentScale - 1)) / 2;
+  return clamp(value, -limit, limit);
+}
 
 function crossedHaptic() {
   void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -58,6 +72,16 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
   const crossed = useSharedValue(0);
   const done = useSharedValue(false);
   const isVideo = item.mediaType === 'video';
+  const zoomable = active && !isVideo;
+  const [zoomed, setZoomed] = useState(false);
+  const cardWidth = useSharedValue(width);
+  const cardHeight = useSharedValue(width);
+  const scale = useSharedValue(1);
+  const savedScale = useSharedValue(1);
+  const zoomX = useSharedValue(0);
+  const zoomY = useSharedValue(0);
+  const savedZoomX = useSharedValue(0);
+  const savedZoomY = useSharedValue(0);
   const durationLabel = item.duration != null ? format.duration(item.duration) : null;
 
   useEffect(() => {
@@ -92,8 +116,77 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
     swipe: (direction: SwipeDirection) => flyOut(direction),
   }));
 
+  const onLayout = (event: LayoutChangeEvent) => {
+    cardWidth.set(event.nativeEvent.layout.width);
+    cardHeight.set(event.nativeEvent.layout.height);
+  };
+
+  const resetZoom = () => {
+    'worklet';
+    scale.set(withSpring(1, ZOOM_SPRING));
+    savedScale.set(1);
+    zoomX.set(withSpring(0, ZOOM_SPRING));
+    zoomY.set(withSpring(0, ZOOM_SPRING));
+    savedZoomX.set(0);
+    savedZoomY.set(0);
+    scheduleOnRN(setZoomed, false);
+  };
+
+  const pinch = Gesture.Pinch()
+    .enabled(zoomable)
+    .onUpdate((event) => {
+      const next = clamp(savedScale.get() * event.scale, 0.8, MAX_SCALE);
+      scale.set(next);
+      zoomX.set(bound(savedZoomX.get(), cardWidth.get(), next));
+      zoomY.set(bound(savedZoomY.get(), cardHeight.get(), next));
+    })
+    .onEnd(() => {
+      if (scale.get() <= 1.02) {
+        resetZoom();
+        return;
+      }
+      savedScale.set(scale.get());
+      savedZoomX.set(zoomX.get());
+      savedZoomY.set(zoomY.get());
+      scheduleOnRN(setZoomed, true);
+    });
+
+  const zoomPan = Gesture.Pan()
+    .enabled(zoomable && zoomed)
+    .averageTouches(true)
+    .onUpdate((event) => {
+      zoomX.set(bound(savedZoomX.get() + event.translationX, cardWidth.get(), scale.get()));
+      zoomY.set(bound(savedZoomY.get() + event.translationY, cardHeight.get(), scale.get()));
+    })
+    .onEnd(() => {
+      savedZoomX.set(zoomX.get());
+      savedZoomY.set(zoomY.get());
+    });
+
+  const doubleTap = Gesture.Tap()
+    .enabled(zoomable)
+    .numberOfTaps(2)
+    .onEnd((event) => {
+      if (savedScale.get() > 1) {
+        resetZoom();
+        return;
+      }
+      const w = cardWidth.get();
+      const h = cardHeight.get();
+      const nextX = bound((w / 2 - event.x) * (DOUBLE_TAP_SCALE - 1), w, DOUBLE_TAP_SCALE);
+      const nextY = bound((h / 2 - event.y) * (DOUBLE_TAP_SCALE - 1), h, DOUBLE_TAP_SCALE);
+      scale.set(withTiming(DOUBLE_TAP_SCALE, { duration: 220 }));
+      zoomX.set(withTiming(nextX, { duration: 220 }));
+      zoomY.set(withTiming(nextY, { duration: 220 }));
+      savedScale.set(DOUBLE_TAP_SCALE);
+      savedZoomX.set(nextX);
+      savedZoomY.set(nextY);
+      scheduleOnRN(setZoomed, true);
+    });
+
   const pan = Gesture.Pan()
-    .enabled(active)
+    .enabled(active && !zoomed)
+    .maxPointers(1)
     .activeOffsetX([-12, 12])
     .onUpdate((event) => {
       translateX.set(event.translationX);
@@ -115,6 +208,12 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
         crossed.set(0);
       }
     });
+
+  const gesture = Gesture.Simultaneous(Gesture.Race(pinch, pan), zoomPan, doubleTap);
+
+  const zoomStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: zoomX.get() }, { translateY: zoomY.get() }, { scale: scale.get() }],
+  }));
 
   const cardStyle = useAnimatedStyle(() => ({
     transform: [
@@ -141,9 +240,10 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
   }));
 
   return (
-    <GestureDetector gesture={pan}>
+    <GestureDetector gesture={gesture}>
       <Animated.View
         style={[styles.card, cardStyle]}
+        onLayout={onLayout}
         accessible
         accessibilityRole="image"
         accessibilityLabel={
@@ -160,13 +260,15 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
         }
         accessibilityHint={t('swipe.cardHint')}
       >
-        <Image
-          source={{ uri: item.uri }}
-          style={styles.image}
-          contentFit="contain"
-          recyclingKey={item.id}
-          cachePolicy="memory"
-        />
+        <Animated.View style={[styles.image, zoomStyle]}>
+          <Image
+            source={{ uri: item.uri }}
+            style={styles.image}
+            contentFit="contain"
+            recyclingKey={item.id}
+            cachePolicy="memory"
+          />
+        </Animated.View>
         {isVideo && active ? (
           <SwipeVideo item={item} muted={muted} onToggleMuted={onToggleMuted} />
         ) : null}
@@ -175,7 +277,7 @@ export const SwipeCard = forwardRef<SwipeCardHandle, SwipeCardProps>(function Sw
           style={[styles.tint, styles.trashTint, trashTintStyle]}
           pointerEvents="none"
         />
-        <View style={styles.meta}>
+        <View style={[styles.meta, zoomed && styles.hidden]}>
           <AppText variant="label" tone="onMedia">
             {format.date(item.createdAt)}
           </AppText>
@@ -218,6 +320,9 @@ const useStyles = createStyles((theme) => ({
   },
   image: {
     flex: 1,
+  },
+  hidden: {
+    opacity: 0,
   },
   meta: {
     position: 'absolute',

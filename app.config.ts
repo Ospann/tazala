@@ -5,17 +5,17 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { withDangerousMod, type ConfigPlugin } from 'expo/config-plugins';
 
 const APP_ID = process.env.TAZALA_APP_ID ?? 'app.tazala';
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
+const ADMOB_TEST_IOS_APP_ID = 'ca-app-pub-3940256099942544~1458002511';
+const ADMOB_TEST_ANDROID_APP_ID = 'ca-app-pub-3940256099942544~3347511713';
 
 const RELEASE_MANIFEST = `<manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools">
-  <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" tools:node="remove" />
 </manifest>
 `;
 
-const withOfflineRelease: ConfigPlugin = (expoConfig) =>
+const withReleasePermissions: ConfigPlugin = (expoConfig) =>
   withDangerousMod(expoConfig, [
     'android',
     (modConfig) => {
@@ -27,7 +27,7 @@ const withOfflineRelease: ConfigPlugin = (expoConfig) =>
   ]);
 
 export default ({ config }: ConfigContext): ExpoConfig =>
-  withOfflineRelease({
+  withReleasePermissions({
     ...config,
     name: 'Tazala',
     slug: 'tazala',
@@ -55,7 +55,32 @@ export default ({ config }: ConfigContext): ExpoConfig =>
       privacyManifests: {
         NSPrivacyTracking: false,
         NSPrivacyTrackingDomains: [],
-        NSPrivacyCollectedDataTypes: [],
+        NSPrivacyCollectedDataTypes: [
+          {
+            NSPrivacyCollectedDataType: 'NSPrivacyCollectedDataTypeDeviceID',
+            NSPrivacyCollectedDataTypeLinked: false,
+            NSPrivacyCollectedDataTypeTracking: false,
+            NSPrivacyCollectedDataTypePurposes: [
+              'NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising',
+            ],
+          },
+          {
+            NSPrivacyCollectedDataType: 'NSPrivacyCollectedDataTypeProductInteraction',
+            NSPrivacyCollectedDataTypeLinked: false,
+            NSPrivacyCollectedDataTypeTracking: false,
+            NSPrivacyCollectedDataTypePurposes: [
+              'NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising',
+            ],
+          },
+          {
+            NSPrivacyCollectedDataType: 'NSPrivacyCollectedDataTypeAdvertisingData',
+            NSPrivacyCollectedDataTypeLinked: false,
+            NSPrivacyCollectedDataTypeTracking: false,
+            NSPrivacyCollectedDataTypePurposes: [
+              'NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising',
+            ],
+          },
+        ],
         NSPrivacyAccessedAPITypes: [],
       },
     },
@@ -76,6 +101,15 @@ export default ({ config }: ConfigContext): ExpoConfig =>
     plugins: [
       'expo-router',
       'expo-sqlite',
+      [
+        'react-native-google-mobile-ads',
+        {
+          iosAppId: process.env.ADMOB_IOS_APP_ID ?? ADMOB_TEST_IOS_APP_ID,
+          androidAppId: process.env.ADMOB_ANDROID_APP_ID ?? ADMOB_TEST_ANDROID_APP_ID,
+          delayAppMeasurementInit: true,
+          skAdNetworkItems: ['cstr6suwn9.skadnetwork'],
+        },
+      ],
       [
         'expo-font',
         {

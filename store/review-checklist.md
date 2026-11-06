@@ -10,22 +10,24 @@
 - ✅ **2.5.1 Публичные API** — PhotoKit, Vision, PHAssetChangeRequest.
 - ⚠️ **2.5.1** — размер файла ассета читается через `PHAssetResource.value(forKey: "fileSize")` (KVC, недокументированный ключ). Широко используется в аналогичных приложениях, но формально не публичный API. При отказе ревью — заменить на оценку по разрешению/длительности (код уже имеет fallback с флагом `fileSizeEstimated`).
 - ✅ **3.1 Платежи** — приложение бесплатное, покупок нет.
+- ⚠️ **Реклама (Google AdMob)** — межстраничная реклама после каждого успешного удаления, только неперсонализированная (`requestNonPersonalizedAdsOnly`), без ATT. Реклама с закрытием, не блокирует удаление и не показывается при отмене. Частый показ может вызвать претензии к UX на ревью.
+- ⬜ AdMob: создать приложение и interstitial-блоки, заполнить `ADMOB_*` в `.env` (см. `.env.example`), разместить `app-ads.txt` на сайте разработчика.
 - ✅ **4.0 Дизайн** — нативная навигация, поддержка тёмной темы, Dynamic Type (масштабирование шрифтов), VoiceOver-подписи.
 - ✅ **4.2 Минимальная функциональность** — пять категорий, свайп-режим, корзина, пакетное удаление.
-- ✅ **5.1.1 Сбор данных** — данные не собираются; запрос доступа к фото с понятным `NSPhotoLibraryUsageDescription` (ru/kk/en); корректная работа при limited и отказе.
+- ✅ **5.1.1 Сбор данных** — приложение собирает только данные, нужные Google AdMob для показа рекламы (идентификатор устройства, данные о рекламе, взаимодействие), без связи с пользователем и без трекинга; запрос доступа к фото с понятным `NSPhotoLibraryUsageDescription` (ru/kk/en); корректная работа при limited и отказе.
 - ✅ **5.1.1(iv)** — приложение не требует полного доступа: при limited объясняет ограничение и даёт сменить выбор.
 - ✅ **5.1.2 Использование данных** — фото не покидают устройство.
 - ✅ Privacy manifest, `ITSAppUsesNonExemptEncryption = false`.
 - ⬜ Privacy Policy URL в App Store Connect.
-- ⬜ Возрастной рейтинг: 4+ (нет пользовательского контента, сети, покупок).
+- ⬜ Возрастной рейтинг: 4+ (реклама ограничена `MaxAdContentRating.PG`).
 - ⬜ Категория: Utilities (основная), Photo & Video (дополнительная).
 - ⬜ Финальная иконка (сейчас плейсхолдер) и сплэш.
-- ⬜ В заметках для ревьюера: «The app works fully offline. To test, allow access to the photo library; the analysis runs on device. Nothing is deleted without the system confirmation dialog.»
+- ⬜ В заметках для ревьюера: «Photo analysis runs fully on device; the internet is used only for non-personalized AdMob ads shown after a deletion. To test, allow access to the photo library; the analysis runs on device. Nothing is deleted without the system confirmation dialog.»
 
 ## Google Play
 
 - ✅ Target API — по умолчанию Expo SDK 57 (актуальный targetSdk).
-- ✅ Data safety — «No data collected» (`store/privacy.md`).
+- ⬜ Data safety — обновлено под AdMob (`store/privacy.md`), заполнить в консоли; отметить «Contains ads».
 - ⬜ **Photo and Video Permissions declaration** — заполнить форму (текст в `store/privacy.md`). Без неё сборка с `READ_MEDIA_IMAGES` будет отклонена.
 - ✅ Удаление только через системный `MediaStore.createDeleteRequest` (Android 11+) с подтверждением пользователя; на Android 8–10 — после подтверждения в приложении.
 - ✅ Release-манифест без `INTERNET`.
