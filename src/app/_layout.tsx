@@ -6,11 +6,11 @@ import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { I18nextProvider } from 'react-i18next';
 
-import { useLibraryAutoScan } from '@/features/app/useLibraryAutoScan';
+import { useLibraryAutoScan } from '@/features/app/use-library-auto-scan';
 import i18n, { applyLanguage, initI18n } from '@/i18n';
-import { usePermissionStore } from '@/stores/permissionStore';
-import { useSettingsStore } from '@/stores/settingsStore';
-import { ThemeProvider, useTheme } from '@/theme/ThemeProvider';
+import { usePermissionStore } from '@/stores/permission-store';
+import { useSettingsStore } from '@/stores/settings-store';
+import { ThemeProvider, useTheme } from '@/theme/theme-provider';
 
 void SplashScreen.preventAutoHideAsync();
 

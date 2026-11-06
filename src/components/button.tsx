@@ -1,10 +1,10 @@
 import { ActivityIndicator, Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { createStyles, useTheme } from '@/theme/ThemeProvider';
+import { createStyles, useTheme } from '@/theme/theme-provider';
 import type { ThemeColors } from '@/theme/tokens';
 
-import { AppText } from './AppText';
-import { Icon, type IconName } from './Icon';
+import { AppText } from './app-text';
+import { Icon, type IconName } from './icon';
 
 type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
 

@@ -1,3 +1,3 @@
-import { PrivacyScreen } from '@/features/settings/PrivacyScreen';
+import { PrivacyScreen } from '@/features/settings/privacy-screen';
 
 export default PrivacyScreen;

@@ -1,6 +1,6 @@
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { SwipeDeckScreen } from '@/features/swipe/SwipeDeckScreen';
+import { SwipeDeckScreen } from '@/features/swipe/swipe-deck-screen';
 
 export default function SwipeDeckRoute() {
   const { month } = useLocalSearchParams<{ month: string }>();

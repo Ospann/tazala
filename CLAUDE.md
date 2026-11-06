@@ -13,10 +13,11 @@
 1. Работай строго **по фазам** (раздел 10). После каждой фазы остановись, кратко отчитайся (что сделано, что проверено, какие риски) и **жди подтверждения**, прежде чем идти дальше.
 2. Самая рискованная часть — нативный сканер. Он делается первым, до красивого UI.
 3. Не коммитить: изменения остаются в рабочем дереве, владелец сам стейджит и коммитит (сообщения — Conventional Commits).
-4. Никаких сетевых запросов из приложения. Никакой аналитики, трекинга, крэш-репортеров со сбором данных без моего явного разрешения.
+4. Никаких сетевых запросов из приложения. Никакой аналитики, трекинга, крэш-репортеров со сбором данных без моего явного разрешения. Единственное разрешённое исключение — загрузка видео из iCloud через PhotoKit (`downloadVideo`, `isNetworkAccessAllowed = true`) и только по явному нажатию «Загрузить из iCloud».
 5. Если требование неоднозначно или противоречит ограничениям платформы — спроси, а не угадывай.
 6. TypeScript в строгом режиме, без `any`. Код на Swift/Kotlin — идиоматичный, с обработкой ошибок.
 7. Не добавляй зависимости без необходимости; каждую новую зависимость упоминай в отчёте по фазе.
+8. Имена TS/TSX-файлов — kebab-case (`dashboard-screen.tsx`, `use-format.ts`, `tazala-scanner.types.ts`). Swift и Kotlin — PascalCase по конвенциям платформ.
 
 ---
 
@@ -48,6 +49,7 @@
 - **zustand** — состояние приложения.
 - **i18next** + **react-i18next** + **expo-localization** — локализация.
 - **expo-haptics** — тактильный отклик на свайпах.
+- **expo-video** — воспроизведение видео в свайп-режиме (iOS: только локальные файлы через `resolveVideoSource`, без загрузки из iCloud).
 - **Собственный нативный модуль `tazala-scanner`** через **Expo Modules API** (Swift для iOS, Kotlin для Android) — сканирование, анализ и удаление.
 
 Bundle ID / applicationId: `app.tazala` (вынести в конфиг, чтобы легко поменять).
@@ -78,9 +80,15 @@ Bundle ID / applicationId: `app.tazala` (вынести в конфиг, что�
 - **Размытые** — сетка, отсортированная по степени размытости.
 - **Большие видео** — список, отсортированный по размеру, с длительностью и объёмом.
 - Действия: «Выбрать всё», «Снять выбор», «В корзину Tazala».
+- Сетки и список видео — как в «Фото» iOS: тап открывает полноэкранный просмотр, кнопка «Выбрать» в шапке включает режим выбора («Готово» — выход со сбросом). Зажатие с протягиванием выделяет диапазон и включает режим выбора, у краёв — автопрокрутка.
+- Единое правило по всему приложению: тап по фото/видео открывает полноэкранный просмотр. В группах похожих и дубликатов отметки видны всегда, их меняет тап по кружку-галочке; просмотр листается внутри группы.
+- Корзина: без выделения — «Удалить всё»; с выделением — «Вернуть N» и «Удалить N». Фильтр «Всё / Фото / Видео» (не сохраняется); «Удалить всё» и выделение действуют только на показанные файлы.
+- Полноэкранный просмотр: зум щипком и двойным тапом, листание, свайп вниз — закрыть, кнопка «Выбрать», видео с системными контролами (только локальные, без загрузки из iCloud).
 
 ### 4.4 Свайп-режим
+- Фильтр «Всё / Фото / Видео» над списком месяцев (запоминается в настройках `swipeMediaFilter`); счётчики месяцев и колода учитывают фильтр.
 - Выбор периода: по месяцам (например «Март 2024 · 412 фото») или «случайные».
+- В колоде фото и видео. Видео проигрывается по кругу, по умолчанию без звука (кнопка звука); видео только в iCloud показывается обложкой с кнопкой «Загрузить из iCloud · размер» (прогресс, отмена; при смахивании карточки загрузка отменяется).
 - Карточка фото на весь экран: свайп влево — в корзину, вправо — оставить. Свайп вверх («в избранное», опционально) не реализован: на Android 11+ каждое изменение избранного требует отдельного системного подтверждения.
 - Кнопка **«Отменить»** последнего действия.
 - Хаптики, плавная анимация, предзагрузка следующих 3–5 изображений.
@@ -145,7 +153,7 @@ modules/
 
 ### 6.1 TypeScript-интерфейс (контракт)
 
-Актуальный контракт — `modules/tazala-scanner/src/TazalaScanner.types.ts` и `TazalaScannerModule.ts`. Кратко:
+Актуальный контракт — `modules/tazala-scanner/src/tazala-scanner.types.ts` и `tazala-scanner-module.ts`. Кратко:
 
 ```ts
 type MediaType = 'photo' | 'video';
@@ -201,6 +209,9 @@ startScan(options: ScanOptions): Promise<void>;        // результаты �
 pauseScan(): void; resumeScan(): void; cancelScan(): void; isScanning(): boolean;
 findSimilarGroups(options: GroupingOptions): Promise<GroupingResult>;  // читает отпечатки напрямую из SQLite (read-only)
 deleteAssets(ids: string[]): Promise<DeleteResult>;    // missingIds — уже отсутствующие в галерее
+downloadVideo(id: string): Promise<VideoSourceResult>;  // iOS: загрузка из iCloud по нажатию, прогресс — onVideoDownloadProgress; Android — как resolveVideoSource
+cancelVideoDownload(id: string): void;
+resolveVideoSource(id: string): Promise<{ uri: string | null; status: 'ok' | 'cloud-only' | 'unavailable' }>;  // локальный файл для expo-video, без сети; iOS: .current, иначе .original (slo-mo, правки)
 getMemoryUsage(): number;                              // для бенчмарка
 
 // События
@@ -209,9 +220,10 @@ onScanBatch({ analyses: AssetAnalysis[] })
 onScanComplete({ durationMs, processed, cancelled })
 onScanError({ message })
 onLibraryChange()                                      // PHPhotoLibraryChangeObserver / ContentObserver
+onVideoDownloadProgress({ id, progress })              // 0…1
 ```
 
-Лучшее фото в группе выбирает JS (`src/features/scan/bestPick.ts`), а не натив.
+Лучшее фото в группе выбирает JS (`src/features/scan/best-pick.ts`), а не натив.
 
 ### 6.2 Анализ изображений
 
@@ -264,7 +276,7 @@ similar_groups (group_id, kind 'similar'|'duplicate', asset_id → assets, is_be
 swipe_decisions (asset_id PK → assets, decision 'keep'|'trash', decided_at);
 trash (asset_id PK → assets, added_at, source);
 stats (key PK, value);      -- freedBytes, deletedCount, lastScanAt
-settings (key PK, value);   -- language, theme, similarityLevel, largeVideoMb, onboardingCompleted
+settings (key PK, value);   -- language, theme, similarityLevel, largeVideoMb, swipeMediaFilter, onboardingCompleted
 ```
 
 Индексы: `assets(created_at)`, `assets(file_size)`, `assets(media_type, created_at)`, `analysis(exact_hash)`, `analysis(blur_score)`, `similar_groups(asset_id)`.

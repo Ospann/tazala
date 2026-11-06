@@ -1,9 +1,9 @@
-import type { BestPickCandidate } from '@/features/scan/bestPick';
+import type { BestPickCandidate } from '@/features/scan/best-pick';
 
 jest.mock('expo-sqlite', () => ({ openDatabaseAsync: jest.fn() }));
 
 const { resolveGroups, withoutPureDuplicates } =
-  jest.requireActual<typeof import('@/db/groupsRepository')>('@/db/groupsRepository');
+  jest.requireActual<typeof import('@/db/groups-repository')>('@/db/groups-repository');
 
 function candidate(id: string, blurScore: number): BestPickCandidate {
   return { id, isFavorite: false, blurScore, width: 100, height: 100, createdAt: 0 };

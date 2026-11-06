@@ -65,7 +65,14 @@ class TazalaScannerModule : Module() {
     Constant("analysisVersion") { AssetAnalyzer.ANALYSIS_VERSION }
     Constant("fingerprintKind") { FINGERPRINT_KIND_DHASH }
 
-    Events("onScanProgress", "onScanBatch", "onScanComplete", "onScanError", "onLibraryChange")
+    Events(
+      "onScanProgress",
+      "onScanBatch",
+      "onScanComplete",
+      "onScanError",
+      "onLibraryChange",
+      "onVideoDownloadProgress",
+    )
 
     OnStartObserving("onLibraryChange") {
       startObservingLibrary()
@@ -154,11 +161,31 @@ class TazalaScannerModule : Module() {
       deleter.delete(ids, promise)
     }.runOnQueue(expo.modules.kotlin.functions.Queues.MAIN)
 
+    AsyncFunction("resolveVideoSource") { id: String ->
+      requireAccess()
+      videoSource(id)
+    }
+
+    AsyncFunction("downloadVideo") { id: String ->
+      requireAccess()
+      videoSource(id)
+    }
+
+    Function("cancelVideoDownload") { _: String -> }
+
     Function("getMemoryUsage") {
       val info = Debug.MemoryInfo()
       Debug.getMemoryInfo(info)
       info.totalPss.toDouble() * 1024
     }
+  }
+
+  private fun videoSource(id: String): Map<String, String?> {
+    val mediaId = id.toLongOrNull()
+    if (mediaId == null || library.existing(listOf(mediaId))[mediaId] != true) {
+      return mapOf("uri" to null, "status" to "unavailable")
+    }
+    return mapOf("uri" to MediaLibrary.contentUri(mediaId, isVideo = true).toString(), "status" to "ok")
   }
 
   private fun startScan(options: ScanOptionsRecord) {
@@ -262,6 +289,6 @@ class TazalaScannerModule : Module() {
   }
 
   companion object {
-    const val MODULE_VERSION = "0.2.0"
+    const val MODULE_VERSION = "0.3.0"
   }
 }

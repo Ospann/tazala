@@ -14,8 +14,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
-import { Sparkle } from '@/components/motion/Sparkle';
-import { createStyles, useTheme } from '@/theme/ThemeProvider';
+import { Sparkle } from '@/components/motion/sparkle';
+import { createStyles, useTheme } from '@/theme/theme-provider';
 
 const SIZE = 220;
 

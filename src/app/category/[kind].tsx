@@ -1,6 +1,6 @@
 import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { CategoryScreen, isCategoryKind } from '@/features/categories/CategoryScreen';
+import { CategoryScreen, isCategoryKind } from '@/features/categories/category-screen';
 
 export default function CategoryRoute() {
   const { kind } = useLocalSearchParams<{ kind: string }>();

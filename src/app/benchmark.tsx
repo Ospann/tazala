@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
-import { BenchmarkScreen } from '@/features/benchmark/BenchmarkScreen';
+import { BenchmarkScreen } from '@/features/benchmark/benchmark-screen';
 
 export default function BenchmarkRoute() {
   if (!__DEV__) {

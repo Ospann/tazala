@@ -3,7 +3,7 @@ import type Ionicons from '@expo/vector-icons/Ionicons';
 import glyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/Ionicons.json';
 import type { ComponentProps } from 'react';
 
-import { useTheme } from '@/theme/ThemeProvider';
+import { useTheme } from '@/theme/theme-provider';
 import type { ThemeColors } from '@/theme/tokens';
 
 const font =

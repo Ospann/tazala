@@ -11,12 +11,12 @@ import Animated, {
   ZoomIn,
 } from 'react-native-reanimated';
 
-import type { MediaItem } from '@/db/mediaItem';
-import { createStyles } from '@/theme/ThemeProvider';
+import type { MediaItem } from '@/db/media-item';
+import { createStyles } from '@/theme/theme-provider';
 import { formatDuration } from '@/utils/format';
 
-import { AppText } from './AppText';
-import { Icon } from './Icon';
+import { AppText } from './app-text';
+import { Icon } from './icon';
 
 interface ThumbnailProps {
   item: MediaItem;
@@ -25,8 +25,10 @@ interface ThumbnailProps {
   badge?: string;
   caption?: string;
   accessibilityLabel: string;
+  selectable?: boolean;
+  checkAccessibilityLabel?: string;
   onPress?: (item: MediaItem) => void;
-  onLongPress?: (item: MediaItem) => void;
+  onCheckPress?: (item: MediaItem) => void;
 }
 
 function ThumbnailComponent({
@@ -36,8 +38,10 @@ function ThumbnailComponent({
   badge,
   caption,
   accessibilityLabel,
+  checkAccessibilityLabel,
   onPress,
-  onLongPress,
+  onCheckPress,
+  selectable = onPress !== undefined,
 }: ThumbnailProps) {
   const styles = useStyles();
   const reduceMotion = useReducedMotion();
@@ -61,11 +65,10 @@ function ThumbnailComponent({
   return (
     <Animated.View style={bounceStyle}>
       <Pressable
-        accessibilityRole={onPress ? 'checkbox' : 'image'}
+        accessibilityRole={selectable && !onCheckPress ? 'checkbox' : onPress ? 'button' : 'image'}
         accessibilityLabel={accessibilityLabel}
-        accessibilityState={onPress ? { checked: selected } : undefined}
+        accessibilityState={selectable && !onCheckPress ? { checked: selected } : undefined}
         onPress={onPress ? () => onPress(item) : undefined}
-        onLongPress={onLongPress ? () => onLongPress(item) : undefined}
         style={[styles.container, { width: size, height: size }]}
       >
         <Image
@@ -77,14 +80,25 @@ function ThumbnailComponent({
           transition={120}
         />
         {selected ? <View style={styles.selectedOverlay} /> : null}
-        {onPress ? (
-          <View style={[styles.check, selected && styles.checkSelected]}>
-            {selected ? (
-              <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>
-                <Icon name="checkmark" size={16} color="onDanger" />
-              </Animated.View>
-            ) : null}
-          </View>
+        {selectable ? (
+          <Pressable
+            accessible={onCheckPress !== undefined}
+            accessibilityRole="checkbox"
+            accessibilityLabel={checkAccessibilityLabel}
+            accessibilityState={{ checked: selected }}
+            disabled={!onCheckPress}
+            onPress={onCheckPress ? () => onCheckPress(item) : undefined}
+            style={styles.checkArea}
+            pointerEvents={onCheckPress ? 'auto' : 'none'}
+          >
+            <View style={[styles.check, selected && styles.checkSelected]}>
+              {selected ? (
+                <Animated.View entering={reduceMotion ? undefined : ZoomIn.springify().damping(12)}>
+                  <Icon name="checkmark" size={16} color="onDanger" />
+                </Animated.View>
+              ) : null}
+            </View>
+          </Pressable>
         ) : null}
         {badge ? (
           <View style={styles.badge}>
@@ -95,15 +109,15 @@ function ThumbnailComponent({
         ) : null}
         {item.mediaType === 'video' && item.duration != null ? (
           <View style={styles.duration}>
-            <Icon name="play" size={12} color="onPrimary" />
-            <AppText variant="caption" tone="onPrimary">
+            <Icon name="play" size={12} color="onMedia" />
+            <AppText variant="caption" tone="onMedia">
               {formatDuration(item.duration)}
             </AppText>
           </View>
         ) : null}
         {caption ? (
           <View style={styles.caption}>
-            <AppText variant="caption" tone="onPrimary" numberOfLines={1}>
+            <AppText variant="caption" tone="onMedia" numberOfLines={1}>
               {caption}
             </AppText>
           </View>
@@ -136,10 +150,16 @@ const useStyles = createStyles((theme) => ({
     borderColor: theme.colors.danger,
     borderRadius: theme.radii.sm,
   },
-  check: {
+  checkArea: {
     position: 'absolute',
-    top: 6,
-    right: 6,
+    top: 0,
+    right: 0,
+    width: 44,
+    height: 44,
+    alignItems: 'flex-end',
+    padding: 6,
+  },
+  check: {
     width: 24,
     height: 24,
     borderRadius: 12,
@@ -173,7 +193,7 @@ const useStyles = createStyles((theme) => ({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: theme.radii.pill,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    backgroundColor: theme.colors.mediaScrim,
   },
   caption: {
     position: 'absolute',
@@ -182,6 +202,6 @@ const useStyles = createStyles((theme) => ({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: theme.radii.pill,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    backgroundColor: theme.colors.mediaScrim,
   },
 }));

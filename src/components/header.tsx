@@ -3,10 +3,10 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { createStyles } from '@/theme/ThemeProvider';
+import { createStyles } from '@/theme/theme-provider';
 
-import { AppText } from './AppText';
-import { IconButton } from './IconButton';
+import { AppText } from './app-text';
+import { IconButton } from './icon-button';
 
 interface HeaderProps {
   title: string;

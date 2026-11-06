@@ -17,6 +17,9 @@ export const palettes = {
     coral: '#FF8A7A',
     overlay: 'rgba(8, 20, 18, 0.55)',
     shadow: '#0B2622',
+    onMedia: '#FFFFFF',
+    mediaScrim: 'rgba(0, 0, 0, 0.55)',
+    mediaBackground: '#000000',
   },
   dark: {
     background: '#0A1614',
@@ -36,6 +39,9 @@ export const palettes = {
     coral: '#FF8B7E',
     overlay: 'rgba(0, 0, 0, 0.6)',
     shadow: '#000000',
+    onMedia: '#FFFFFF',
+    mediaScrim: 'rgba(0, 0, 0, 0.55)',
+    mediaBackground: '#000000',
   },
 } as const;
 

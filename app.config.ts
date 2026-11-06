@@ -5,7 +5,7 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { withDangerousMod, type ConfigPlugin } from 'expo/config-plugins';
 
 const APP_ID = process.env.TAZALA_APP_ID ?? 'app.tazala';
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 
 const RELEASE_MANIFEST = `<manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools">

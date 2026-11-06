@@ -13,12 +13,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 
-import { AppText } from '@/components/AppText';
-import { Button } from '@/components/Button';
-import { Sparkle } from '@/components/motion/Sparkle';
-import { useCountUp } from '@/components/motion/useCountUp';
-import { createStyles, useTheme } from '@/theme/ThemeProvider';
-import { useFormat } from '@/utils/useFormat';
+import { AppText } from '@/components/app-text';
+import { Button } from '@/components/button';
+import { Sparkle } from '@/components/motion/sparkle';
+import { useCountUp } from '@/components/motion/use-count-up';
+import { createStyles, useTheme } from '@/theme/theme-provider';
+import { useFormat } from '@/utils/use-format';
 
 interface CelebrationProps {
   freedBytes: number;

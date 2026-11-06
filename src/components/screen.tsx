@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView, type Edge } from 'react-native-safe-area-context';
 
-import { createStyles } from '@/theme/ThemeProvider';
+import { createStyles } from '@/theme/theme-provider';
 
 interface ScreenProps {
   children: ReactNode;

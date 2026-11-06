@@ -40,7 +40,7 @@ private final class LibraryChangeObserver: NSObject, PHPhotoLibraryChangeObserve
 }
 
 public class TazalaScannerModule: Module {
-  static let moduleVersion = "0.2.0"
+  static let moduleVersion = "0.3.0"
 
   private let library = PhotoLibrary()
   private let sessionLock = NSLock()
@@ -56,7 +56,14 @@ public class TazalaScannerModule: Module {
     Constant("analysisVersion") { AssetAnalyzer.analysisVersion }
     Constant("fingerprintKind") { AssetAnalyzer.preferredFingerprintKind.rawValue }
 
-    Events("onScanProgress", "onScanBatch", "onScanComplete", "onScanError", "onLibraryChange")
+    Events(
+      "onScanProgress",
+      "onScanBatch",
+      "onScanComplete",
+      "onScanError",
+      "onLibraryChange",
+      "onVideoDownloadProgress"
+    )
 
     OnStartObserving("onLibraryChange") {
       self.startObservingLibrary()
@@ -150,6 +157,23 @@ public class TazalaScannerModule: Module {
     AsyncFunction("deleteAssets") { (ids: [String]) async throws -> [String: Any] in
       try self.requireAccess()
       return await AssetDeleter.delete(identifiers: ids, library: self.library).dictionary
+    }
+
+    AsyncFunction("resolveVideoSource") { (id: String) async throws -> [String: Any?] in
+      try self.requireAccess()
+      return await VideoSource.resolve(identifier: id).dictionary
+    }
+
+    AsyncFunction("downloadVideo") { (id: String) async throws -> [String: Any?] in
+      try self.requireAccess()
+      let result = await VideoSource.download(identifier: id) { [weak self] progress in
+        self?.sendEvent("onVideoDownloadProgress", ["id": id, "progress": progress])
+      }
+      return result.dictionary
+    }
+
+    Function("cancelVideoDownload") { (id: String) in
+      VideoSource.cancelDownload(identifier: id)
     }
 
     Function("getMemoryUsage") { () -> Double in

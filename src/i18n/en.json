@@ -7,7 +7,9 @@
     "retry": "Try again",
     "great": "Great",
     "errorTitle": "Something went wrong",
-    "errorBody": "Could not load the data. Please try again."
+    "errorBody": "Could not load the data. Please try again.",
+    "select": "Select",
+    "done": "Done"
   },
   "units": {
     "b": "B",
@@ -77,12 +79,12 @@
   "categories": {
     "similar": {
       "title": "Similar photos",
-      "description": "Series of shots taken within a few minutes. The best photo in each group is kept; the rest are selected for removal. Tap a photo to change the selection.",
+      "description": "Series of shots taken within a few minutes. The best photo in each group is kept; the rest are selected for removal. Tap a photo to view and compare it full screen, or tap the circle to change the selection.",
       "empty": "No series of similar photos found."
     },
     "duplicates": {
       "title": "Duplicates",
-      "description": "Identical copies of the same photo. One copy is kept in each group.",
+      "description": "Identical copies of the same photo. One copy is kept in each group. Tap a photo to view it full screen, or tap the circle to change the selection.",
       "empty": "No duplicates found."
     },
     "screenshots": {
@@ -120,7 +122,8 @@
     "notSelected": "not selected",
     "summary_one": "{{count}} photo · {{size}} to free",
     "summary_other": "{{count}} photos · {{size}} to free",
-    "itemA11y": "Photo {{index}} of {{total}}. {{best}} {{state}}"
+    "itemA11y": "Photo {{index}} of {{total}}. {{best}} {{state}}",
+    "toggleA11y": "Mark for removal"
   },
   "selection": {
     "summary_one": "{{count}} selected · {{size}}",
@@ -133,43 +136,47 @@
   "swipe": {
     "title": "Swipe review",
     "chooseMonth": "Choose a month",
-    "random": "Random photos",
     "randomHint": "A random mix from your whole gallery",
-    "monthLabel_one": "{{month}} · {{formatted}} photo",
-    "monthLabel_other": "{{month}} · {{formatted}} photos",
+    "monthLabel_one": "{{month}} · {{formatted}} item",
+    "monthLabel_other": "{{month}} · {{formatted}} items",
     "monthDone": "Reviewed",
     "monthProgress": "{{reviewed}} of {{total}} reviewed",
-    "emptyTitle": "No photos yet",
-    "emptyBody": "Photos will appear here after the gallery is analyzed.",
+    "emptyTitle": "Nothing here yet",
+    "emptyBody": "Photos and videos will appear here after the gallery is analyzed.",
     "position": "{{current}} of {{total}}",
     "keep": "Keep",
     "toTrash": "Remove",
     "undo": "Undo",
-    "keepHint": "Keeps this photo and shows the next one",
-    "trashHint": "Moves this photo to the Tazala trash",
+    "keepHint": "Keeps this item and shows the next one",
+    "trashHint": "Moves this item to the Tazala trash",
     "cardHint": "Swipe left to remove, right to keep, or use the buttons below",
     "cardA11y": "Photo from {{date}}, {{size}}",
     "gestureHint": "← remove   ·   keep →",
     "allDoneTitle": "Already reviewed",
-    "allDoneBody": "You've reviewed every photo here.",
+    "allDoneBody": "You've reviewed every photo and video here.",
     "finishedTitle": "Done!",
-    "finishedBody_one": "{{count}} photo ({{size}}) is in the Tazala trash. Nothing is deleted until you confirm.",
-    "finishedBody_other": "{{count}} photos ({{size}}) are in the Tazala trash. Nothing is deleted until you confirm.",
-    "otherMonths": "Other months"
+    "finishedBody_one": "{{count}} item ({{size}}) is in the Tazala trash. Nothing is deleted until you confirm.",
+    "finishedBody_other": "{{count}} items ({{size}}) are in the Tazala trash. Nothing is deleted until you confirm.",
+    "otherMonths": "Other months",
+    "cardVideoA11y": "Video from {{date}}, {{duration}}, {{size}}",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "random_all": "Random photos and videos",
+    "random_photo": "Random photos",
+    "random_video": "Random videos"
   },
   "trash": {
     "title": "Tazala trash",
     "open": "Open trash",
     "openWithCount_one": "Tazala trash, {{count}} file",
     "openWithCount_other": "Tazala trash, {{count}} files",
-    "description": "Nothing here has been deleted yet. Tap photos to put them back, or delete everything at once.",
+    "description": "Nothing here has been deleted yet. Tap a photo to view it. Use Select to put back or delete only some files, or delete everything at once.",
     "emptyTitle": "Trash is empty",
     "emptyBody": "Photos you select in categories or in swipe mode will appear here.",
     "restore_one": "Put back {{count}} file",
     "restore_other": "Put back {{count}} files",
     "restored_one": "{{count}} file put back",
     "restored_other": "{{count}} files put back",
-    "selectedForRestore": "selected to put back",
     "deleteAll_one": "Delete {{count}} file ({{size}})",
     "deleteAll_other": "Delete {{count}} files ({{size}})",
     "confirmTitle_one": "Delete {{count}} file?",
@@ -186,7 +193,8 @@
     "freedBody_other": "{{count}} files deleted.",
     "freedA11y_one": "Freed {{size}}, {{count}} file deleted",
     "freedA11y_other": "Freed {{size}}, {{count}} files deleted",
-    "iosRecentlyDeleted": "On iPhone, deleted photos go to “Recently Deleted” in the Photos app. The space is freed after you empty that album or automatically after 30 days."
+    "iosRecentlyDeleted": "On iPhone, deleted photos go to “Recently Deleted” in the Photos app. The space is freed after you empty that album or automatically after 30 days.",
+    "selectedItem": "selected"
   },
   "settings": {
     "title": "Settings",
@@ -240,7 +248,7 @@
     },
     "network": {
       "title": "Internet, analytics and ads",
-      "body": "Tazala makes no network requests. There's no analytics, tracking, advertising or crash reporting, and no accounts."
+      "body": "Tazala itself makes no network requests and sends no data anywhere. The only exception: when you tap “Download from iCloud”, iOS downloads your own video from iCloud through the Photos app — the transfer happens only between your phone and Apple. There is no analytics, tracking, advertising, crash reporting or accounts."
     },
     "deletion": {
       "title": "Deleting photos",
@@ -253,5 +261,25 @@
   },
   "benchmark": {
     "title": "Benchmark"
+  },
+  "viewer": {
+    "position": "{{current}} of {{total}}",
+    "select": "Select",
+    "selected": "Selected"
+  },
+  "mediaFilter": {
+    "a11y": "File type",
+    "all": "All",
+    "photo": "Photos",
+    "video": "Videos",
+    "emptyTitle": "Nothing of this type here",
+    "emptyBody": "Try another filter."
+  },
+  "video": {
+    "download": "Download from iCloud · {{size}}",
+    "downloadHint": "The video is downloaded from iCloud by the Photos app. Mobile data may be used.",
+    "downloading": "Downloading from iCloud… {{percent}}%",
+    "cancel": "Cancel download",
+    "failed": "This video can’t be played"
   }
 }

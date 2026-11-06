@@ -2,7 +2,7 @@ import { getLocales } from 'expo-localization';
 import i18next, { changeLanguage } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import type { LanguagePreference } from '@/stores/settingsStore';
+import type { LanguagePreference } from '@/stores/settings-store';
 
 import en from './en.json';
 import kk from './kk.json';
