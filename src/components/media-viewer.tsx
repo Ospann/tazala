@@ -228,11 +228,12 @@ function VideoPage({ item, active, width, height }: VideoPageProps) {
 
 function ActiveVideo({ item }: { item: MediaItem }) {
   const styles = useStyles();
-  const { player, status, progress, download, cancelDownload } = useLocalVideo(item.id, {
-    muted: false,
-    loop: false,
-    autoplay: true,
-  });
+  const { player, status, progress, frameShown, onFirstFrame, download, cancelDownload } =
+    useLocalVideo(item.id, {
+      muted: false,
+      loop: false,
+      autoplay: true,
+    });
 
   if (status === 'loading') return null;
   if (status !== 'ready') {
@@ -247,15 +248,16 @@ function ActiveVideo({ item }: { item: MediaItem }) {
     );
   }
   return (
-    <Animated.View style={styles.overlay} entering={FadeIn.duration(180)}>
+    <View style={[styles.overlay, !frameShown && styles.hidden]}>
       <VideoView
         player={player}
         style={styles.fill}
         contentFit="contain"
         nativeControls
         allowsPictureInPicture={false}
+        onFirstFrameRender={onFirstFrame}
       />
-    </Animated.View>
+    </View>
   );
 }
 
@@ -273,6 +275,9 @@ const useStyles = createStyles((theme) => ({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  hidden: {
+    opacity: 0,
   },
   top: {
     position: 'absolute',

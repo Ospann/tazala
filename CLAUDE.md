@@ -217,6 +217,8 @@ findSimilarGroups(options: GroupingOptions): Promise<GroupingResult>;  // чит
 deleteAssets(ids: string[]): Promise<DeleteResult>;    // missingIds — уже отсутствующие в галерее
 downloadVideo(id: string): Promise<VideoSourceResult>;  // iOS: загрузка из iCloud по нажатию, прогресс — onVideoDownloadProgress; Android — как resolveVideoSource
 cancelVideoDownload(id: string): void;
+exportVideoSource(id: string): Promise<VideoSourceResult>;  // iOS: passthrough-копия в tmp, последний запасной вариант при ошибке плеера; Android — как resolveVideoSource
+releaseVideoSource(id: string): void;                   // iOS: отпустить кэш AVURLAsset (держит доступ к файлу медиатеки) и удалить экспорт; Android — no-op
 resolveVideoSource(id: string): Promise<{ uri: string | null; status: 'ok' | 'cloud-only' | 'unavailable' }>;  // локальный файл для expo-video, без сети; iOS: .current, иначе .original (slo-mo, правки)
 getMemoryUsage(): number;                              // для бенчмарка
 

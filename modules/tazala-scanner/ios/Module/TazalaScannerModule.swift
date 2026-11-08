@@ -65,6 +65,10 @@ public class TazalaScannerModule: Module {
       "onVideoDownloadProgress"
     )
 
+    OnCreate {
+      VideoSource.clearExports()
+    }
+
     OnStartObserving("onLibraryChange") {
       self.startObservingLibrary()
     }
@@ -174,6 +178,15 @@ public class TazalaScannerModule: Module {
 
     Function("cancelVideoDownload") { (id: String) in
       VideoSource.cancelDownload(identifier: id)
+    }
+
+    AsyncFunction("exportVideoSource") { (id: String) async throws -> [String: Any?] in
+      try self.requireAccess()
+      return await VideoSource.export(identifier: id).dictionary
+    }
+
+    Function("releaseVideoSource") { (id: String) in
+      VideoSource.release(identifier: id)
     }
 
     Function("getMemoryUsage") { () -> Double in

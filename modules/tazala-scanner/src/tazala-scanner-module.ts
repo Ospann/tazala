@@ -36,6 +36,8 @@ declare class TazalaScannerModule extends NativeModule<TazalaScannerModuleEvents
   resolveVideoSource(id: string): Promise<VideoSourceResult>;
   downloadVideo(id: string): Promise<VideoSourceResult>;
   cancelVideoDownload(id: string): void;
+  exportVideoSource(id: string): Promise<VideoSourceResult>;
+  releaseVideoSource(id: string): void;
   getMemoryUsage(): number;
 }
 

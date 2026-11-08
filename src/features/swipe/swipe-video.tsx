@@ -1,6 +1,5 @@
 import { VideoView } from 'expo-video';
-import { Pressable } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { Icon } from '@/components/icon';
@@ -18,11 +17,12 @@ interface SwipeVideoProps {
 export function SwipeVideo({ item, muted, onToggleMuted }: SwipeVideoProps) {
   const styles = useStyles();
   const { t } = useTranslation();
-  const { player, status, progress, download, cancelDownload } = useLocalVideo(item.id, {
-    muted,
-    loop: true,
-    autoplay: true,
-  });
+  const { player, status, progress, frameShown, onFirstFrame, download, cancelDownload } =
+    useLocalVideo(item.id, {
+      muted,
+      loop: true,
+      autoplay: true,
+    });
 
   if (status !== 'ready' && status !== 'loading') {
     return (
@@ -39,15 +39,16 @@ export function SwipeVideo({ item, muted, onToggleMuted }: SwipeVideoProps) {
   return (
     <>
       {status === 'ready' ? (
-        <Animated.View style={styles.video} entering={FadeIn.duration(180)} pointerEvents="none">
+        <View style={[styles.video, !frameShown && styles.hidden]} pointerEvents="none">
           <VideoView
             player={player}
             style={styles.fill}
             contentFit="contain"
             nativeControls={false}
             allowsPictureInPicture={false}
+            onFirstFrameRender={onFirstFrame}
           />
-        </Animated.View>
+        </View>
       ) : null}
       <Pressable
         accessibilityRole="button"
@@ -72,6 +73,9 @@ const useStyles = createStyles((theme) => ({
   },
   fill: {
     flex: 1,
+  },
+  hidden: {
+    opacity: 0,
   },
   mute: {
     position: 'absolute',

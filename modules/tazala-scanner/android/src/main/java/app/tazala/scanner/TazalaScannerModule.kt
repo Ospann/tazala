@@ -173,6 +173,13 @@ class TazalaScannerModule : Module() {
 
     Function("cancelVideoDownload") { _: String -> }
 
+    AsyncFunction("exportVideoSource") { id: String ->
+      requireAccess()
+      videoSource(id)
+    }
+
+    Function("releaseVideoSource") { _: String -> }
+
     Function("getMemoryUsage") {
       val info = Debug.MemoryInfo()
       Debug.getMemoryInfo(info)

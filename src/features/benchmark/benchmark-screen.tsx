@@ -10,6 +10,7 @@ import { ProgressBar } from '@/components/progress-bar';
 import { Screen } from '@/components/screen';
 import { runScan } from '@/features/scan/scan-service';
 import { useScanStore } from '@/stores/scan-store';
+import { useVideoErrorStore } from '@/stores/video-error-store';
 import { createStyles } from '@/theme/theme-provider';
 
 function rate(count: number, ms: number): string {
@@ -26,6 +27,8 @@ export function BenchmarkScreen() {
   const { phase, processed, total, lastMetrics } = useScanStore();
   const [listing, setListing] = useState<{ count: number; ms: number } | null>(null);
   const running = phase !== 'idle';
+  const videoErrors = useVideoErrorStore((state) => state.entries);
+  const clearVideoErrors = useVideoErrorStore((state) => state.clear);
 
   const measureListing = async () => {
     const started = Date.now();
@@ -116,6 +119,31 @@ export function BenchmarkScreen() {
               ))}
             </View>
           ) : null}
+          <View style={styles.card}>
+            <View style={styles.row}>
+              <AppText variant="label" style={styles.flex}>
+                Video errors ({videoErrors.length})
+              </AppText>
+              {videoErrors.length > 0 ? (
+                <Button label="Clear" variant="ghost" onPress={clearVideoErrors} />
+              ) : null}
+            </View>
+            {videoErrors.length === 0 ? (
+              <AppText variant="caption" tone="secondary">
+                No video errors in this session.
+              </AppText>
+            ) : (
+              videoErrors.map((entry) => (
+                <View key={`${entry.at}-${entry.assetId}-${entry.attempt}`}>
+                  <AppText variant="caption" tone="secondary">
+                    {new Date(entry.at).toLocaleTimeString()} · {entry.stage} #{entry.attempt} ·{' '}
+                    {entry.source ?? 'no source'}
+                  </AppText>
+                  <AppText variant="caption">{entry.message}</AppText>
+                </View>
+              ))
+            )}
+          </View>
         </Screen>
       </View>
     </Screen>

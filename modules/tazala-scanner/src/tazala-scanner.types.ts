@@ -68,9 +68,12 @@ export interface GroupingResult {
 
 export type VideoSourceStatus = 'ok' | 'cloud-only' | 'unavailable' | 'cancelled';
 
+export type VideoSourceReason = 'not-url-asset' | 'nil-asset' | 'missing-asset' | 'export-failed';
+
 export interface VideoSourceResult {
   uri: string | null;
   status: VideoSourceStatus;
+  reason?: VideoSourceReason | null;
 }
 
 export interface DeleteResult {
