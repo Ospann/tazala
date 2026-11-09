@@ -144,7 +144,7 @@ export function OnboardingScreen() {
           </View>
         ) : isLast ? (
           <Button
-            label={t('onboarding.allowAccess')}
+            label={t('common.next')}
             size="large"
             icon="images-outline"
             loading={requesting}

@@ -28,9 +28,7 @@ export function PermissionDenied() {
       icon="lock-closed-outline"
       title={t('permission.deniedTitle')}
       message={t('permission.deniedBody')}
-      actionLabel={
-        status === 'undetermined' ? t('onboarding.allowAccess') : t('permission.openSettings')
-      }
+      actionLabel={status === 'undetermined' ? t('common.next') : t('permission.openSettings')}
       onAction={() => void onPress()}
     />
   );

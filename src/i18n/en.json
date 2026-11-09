@@ -30,7 +30,6 @@
       "title": "Access to your gallery",
       "body": "Tazala needs access to your photos and videos to analyze them. Nothing is deleted without your confirmation."
     },
-    "allowAccess": "Allow access",
     "continueWithout": "Continue without access",
     "pageOf": "Page {{page}} of {{total}}"
   },
